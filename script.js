@@ -1,7 +1,15 @@
-let x = 0;
+var w = window.innerWidth;
+var h = window.innerHeight;
+var x = 0;
 
 function setup() {
-	createCanvas(400, 400);
+	canvas = createCanvas(w, h);
+}
+
+window.onresize = function() {
+	w = window.innerWidth;
+	h = window.innerHeight;
+	canvas.size(w,h);
 }
 
 function draw() {
