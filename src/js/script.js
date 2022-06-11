@@ -1,41 +1,42 @@
-// Variables ventana
-var ventanaInteriorAncho = window.innerWidth;
-var ventanaInteriorAlto = window.innerHeight;
+// Var window
+var windowInnerWidth = window.innerWidth;
+var windowInnerHeight = window.innerHeight;
 var canvas;
 
-// Variables cuadrado
-var posicionX = 0;
-var posicionY = getRandomNumero(0, ventanaInteriorAlto);
-var medidaAnc = 10;
-var medidaAlt = 10;
+// Var square
+var positionX = 0;
+var positionY = getRandomInt(0, windowInnerHeight);
+var measureW = 10;
+var measureH = 10;
 
-// Preparacion del canvas (se autollama y se puede llamar manualmente)
+// Start canvas (autocall and manualcall)
 function setup() {
-	ventanaInteriorAncho = window.innerWidth;
-	ventanaInteriorAlto = window.innerHeight;
-	canvas = createCanvas(ventanaInteriorAncho, ventanaInteriorAlto);
+	windowInnerWidth = window.innerWidth;
+	windowInnerHeight = window.innerHeight;
+	canvas = createCanvas(windowInnerWidth, windowInnerHeight);
 }
 
-// Redimensionamiento del canvas (se autollama)
+// Window onresize (autocall)
 window.onresize = function() {
 	setup();
 }
 
+// Main loop (autocall)
 function draw() {
 	background(255, 0, 0);
 	noStroke();
 	fill(0, 0, 255);
-	rect(posicionX, posicionY, medidaAnc, medidaAlt);
-	if (posicionX<ventanaInteriorAncho) {
-		posicionX += 10;
+	rect(positionX, positionY, measureW, measureH);
+	if (positionX<windowInnerWidth) {
+		positionX += 10;
 	}
 	else {
-		posicionX = 0;
-		posicionY = getRandomNumero(0, ventanaInteriorAlto);
+		positionX = 0;
+		positionY = getRandomInt(0, windowInnerHeight);
 	}
 }
 
-// Retorna un numero aleatorio entre minimo (incluido) y maximo (excluido)
-function getRandomNumero(minimo, maximo) {
-	return Math.random() * (maximo - minimo) + minimo;
+// Random int with min (included) and max (excluded)
+function getRandomInt(min, max) {
+	return Math.random() * (max - min) + min;
 }
