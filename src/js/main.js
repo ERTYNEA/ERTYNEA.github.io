@@ -1,12 +1,7 @@
 // Var
 var space = new Space(window.innerWidth, window.innerHeight);
 var framework = new Framework(10, 10, space.getW() - 20, space.getH() - 20);
-
-// Var square
-var squarePositionX = framework.getX();
-var squarePositionY = getRandomInt(framework.getY(), framework.getH());
-var squareMeasureW = 10;
-var squareMeasureH = 10;
+var character = new Character(framework.getX(), getRandomInt(framework.getY(), framework.getH()), 10, 10);
 
 // Start canvas (autocall and manualcall)
 function setup() {
@@ -30,13 +25,13 @@ function draw() {
 	rect(framework.getX(), framework.getY(), framework.getW(), framework.getH());
 	noStroke();
 	fill(0, 0, 255);
-	rect(squarePositionX, squarePositionY, squareMeasureW, squareMeasureH);
-	if (squarePositionX<framework.getW()) {
-		squarePositionX += 10;
+	rect(character.getX(), character.getY(), character.getW(), character.getH());
+	if (character.getX() < framework.getW()) {
+		character.setX(character.getX() + 10);
 	}
 	else {
-		squarePositionX = framework.getX();
-		squarePositionY = getRandomInt(framework.getY(), framework.getH());
+		character.setX(framework.getX());
+		character.setY(getRandomInt(framework.getY(), framework.getH()));
 	}
 }
 
