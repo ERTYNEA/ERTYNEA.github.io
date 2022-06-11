@@ -1,22 +1,36 @@
-var w = window.innerWidth;
-var h = window.innerHeight;
-var x = 0;
+// Variables ventana
+var ventanaInteriorAncho = window.innerWidth;
+var ventanaInteriorAlto = window.innerHeight;
+
+// Variables cuadrado
+var posicionX = 0;
+var posicionY = getRandomNumero(0, ventanaInteriorAlto);
+var medidaAnc = 10;
+var medidaAlt = 10;
 
 function setup() {
-	canvas = createCanvas(w, h);
+	canvas = createCanvas(ventanaInteriorAncho, ventanaInteriorAlto);
 }
 
 window.onresize = function() {
-	w = window.innerWidth;
-	h = window.innerHeight;
-	canvas.size(w,h);
+	ventanaInteriorAncho = window.innerWidth;
+	ventanaInteriorAlto = window.innerHeight;
+	canvas.size(ventanaInteriorAncho, ventanaInteriorAlto);
 }
 
 function draw() {
 	background(255, 0, 0);
-	rect(x, 0, 10, 10);
-	if (x<400)
-		x++;
-	else
-		x = 0;
+	rect(posicionX, posicionY, medidaAnc, medidaAlt);
+	if (posicionX<ventanaInteriorAncho) {
+		posicionX += 10;
+	}
+	else {
+		posicionX = 0;
+		posicionY = getRandomNumero(0, ventanaInteriorAlto);
+	}
+}
+
+// Retorna un numero aleatorio entre minimo (incluido) y maximo (excluido)
+function getRandomNumero(minimo, maximo) {
+	return Math.random() * (maximo - minimo) + minimo;
 }
