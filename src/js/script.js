@@ -20,6 +20,8 @@ function setup() {
 	windowInnerWidth = window.innerWidth;
 	windowInnerHeight = window.innerHeight;
 	canvas = createCanvas(windowInnerWidth, windowInnerHeight);
+	frameworkMeasureW = windowInnerWidth - 20;
+	frameworkMeasureH = windowInnerHeight - 20;
 }
 
 // Window onresize (autocall)
