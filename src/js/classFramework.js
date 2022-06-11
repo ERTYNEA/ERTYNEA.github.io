@@ -1,4 +1,4 @@
-// Class framework
+// Class Framework
 class Framework {
 	constructor(x, y, w, h) {
 		this.x = x;
