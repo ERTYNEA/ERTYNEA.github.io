@@ -4,6 +4,11 @@ var framework = new Framework(10, 10, space.getW() - 20, space.getH() - 20);
 var character_a = new Character(framework.getX(), getRandomInt(framework.getY(), framework.getH()), 10, 10);
 var character_b = new Character(framework.getX(), getRandomInt(framework.getY(), framework.getH()), 10, 10);
 
+function preload()
+{
+  img = loadImage("/img/Human.png");
+}
+
 // Start canvas (autocall and manualcall)
 function setup() {
 	space.setW(window.innerWidth);
@@ -30,9 +35,9 @@ function draw() {
 
 	noStroke();
 	fill(0, 255, 0);
-	rect(character_a.getX(), character_a.getY(), character_a.getW(), character_a.getH());
+	image(img, character_a.getX(), character_a.getY(), character_a.getW(), character_a.getH());
 	if (character_a.getX() < framework.getW()) {
-		character_a.setX(character_a.getX() + 10);
+		character_a.setX(character_a.getX() + 1);
 	}
 	else {
 		character_a.setX(framework.getX());
