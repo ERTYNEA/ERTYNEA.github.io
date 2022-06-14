@@ -1,41 +1,41 @@
 // Class Framework
 class Framework {
-	constructor(x, y, w, h) {
-		this.x = x;
-		this.y = y;
-		this.w = w;
-		this.h = h;
-	}
-	
-	getX() {
-		return this.x;
-	}
+    constructor(x, y, w, h) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+    }
 
-	setX(x) {
-		this.x = x;
-	}
+    getX() {
+        return this.x;
+    }
 
-	getY() {
-		return this.y;
-	}
+    setX(x) {
+        this.x = x;
+    }
 
-	setY(y) {
-		this.y = y;
-	}
+    getY() {
+        return this.y;
+    }
 
-	getW() {
-		return this.w;
-	}
+    setY(y) {
+        this.y = y;
+    }
 
-	setW(w) {
-		this.w = w;
-	}
+    getW() {
+        return this.w;
+    }
 
-	getH() {
-		return this.h;
-	}
+    setW(w) {
+        this.w = w;
+    }
 
-	setH(h) {
-		this.h = h;
-	}
+    getH() {
+        return this.h;
+    }
+
+    setH(h) {
+        this.h = h;
+    }
 }
