@@ -1,41 +1,15 @@
 // Class Character
-class Character {
-    constructor(x, y, w, h) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
+class Character extends Square {
+    constructor(img, x, y, w, h) {
+        super(x, y, w, h);
+        this.img = img;
     }
 
-    getX() {
-        return this.x;
+    getImg() {
+        return this.img;
     }
 
-    setX(x) {
-        this.x = x;
-    }
-
-    getY() {
-        return this.y;
-    }
-
-    setY(y) {
-        this.y = y;
-    }
-
-    getW() {
-        return this.w;
-    }
-
-    setW(w) {
-        this.w = w;
-    }
-
-    getH() {
-        return this.h;
-    }
-
-    setH(h) {
-        this.h = h;
+    setImg(img) {
+        this.img = img;
     }
 }

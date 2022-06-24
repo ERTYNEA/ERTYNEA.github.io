@@ -1,12 +1,12 @@
 // Var
 var space = new Space(window.innerWidth, window.innerHeight);
 var framework = new Framework(10, 10, space.getW() - 20, space.getH() - 20);
-var character_a = new Character(framework.getX(), getRandomInt(framework.getY(), framework.getH()), 10, 10);
-var character_b = new Character(framework.getX(), getRandomInt(framework.getY(), framework.getH()), 10, 10);
+var character_a = new Character("/img/Human.png", framework.getX(), getRandomInt(framework.getY(), framework.getH()), 10, 10);
+var character_b = new Character(null, framework.getX(), getRandomInt(framework.getY(), framework.getH()), 10, 10);
 
 function preload()
 {
-    img = loadImage("/img/Human.png");
+    img = loadImage(character_a.getImg());
 }
 
 // Start canvas (autocall and manualcall)
