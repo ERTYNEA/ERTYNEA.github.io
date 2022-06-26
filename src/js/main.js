@@ -2,12 +2,12 @@
 var space = new Space(window.innerWidth, window.innerHeight);
 var framework = new Framework(0, 4, 255, 0, 0, 0, space.getW(), space.getH());
 var mouse = new Mouse(framework.getInnerX(), framework.getInnerY());
-var character_a = new Character("/img/Human.png", framework.getInnerX(), framework.getInnerY(), 10, 10);
-var character_b = new Character(null, framework.getInnerX(), getRandomInt(framework.getInnerY(), framework.getInnerH()), 10, 10);
+var player = new Character("/img/Human.png", framework.getInnerX(), framework.getInnerY(), 10, 10);
+var enemy = new Character(null, framework.getInnerX(), getRandomInt(framework.getInnerY(), framework.getInnerH()), 10, 10);
 
 function preload()
 {
-    img = loadImage(character_a.getImg());
+    img = loadImage(player.getImg());
 }
 
 // Start canvas (autocall and manualcall)
@@ -39,36 +39,36 @@ function draw() {
     fill(framework.getIfill());
     rect(framework.getInnerX(), framework.getInnerY(), framework.getInnerW(), framework.getInnerH());
 
-    // character_a
+    // player
     noStroke();
-    image(img, character_a.getX() + framework.getStrwHalf(), character_a.getY() + framework.getStrwHalf(), character_a.getW(), character_a.getH());
-    if ((character_a.getX() < (framework.getInnerW() - framework.getStrw())) &&
-        (character_a.getX() < mouse.getX())) {
-        character_a.setX(character_a.getX() + 1);
+    image(img, player.getX() + framework.getStrwHalf(), player.getY() + framework.getStrwHalf(), player.getW(), player.getH());
+    if ((player.getX() < (framework.getInnerW() - framework.getStrw())) &&
+        (player.getX() < mouse.getX())) {
+        player.setX(player.getX() + 1);
     }
-    else if ((character_a.getX() > framework.getInnerX()) &&
-        (character_a.getX() > mouse.getX())) {
-        character_a.setX(character_a.getX() - 1);
+    else if ((player.getX() > framework.getInnerX()) &&
+        (player.getX() > mouse.getX())) {
+        player.setX(player.getX() - 1);
     }
-    if ((character_a.getY() < (framework.getInnerH() - framework.getStrw())) &&
-        (character_a.getY() < mouse.getY())) {
-        character_a.setY(character_a.getY() + 1);
+    if ((player.getY() < (framework.getInnerH() - framework.getStrw())) &&
+        (player.getY() < mouse.getY())) {
+        player.setY(player.getY() + 1);
     }
-    else if ((character_a.getY() > framework.getInnerY()) &&
-        (character_a.getY() > mouse.getY())) {
-        character_a.setY(character_a.getY() - 1);
+    else if ((player.getY() > framework.getInnerY()) &&
+        (player.getY() > mouse.getY())) {
+        player.setY(player.getY() - 1);
     }
 
-    // character_b
+    // enemy
     noStroke();
     fill(0, 0, 255);
-    rect(character_b.getX(), character_b.getY(), character_b.getW(), character_b.getH());
-    if (character_b.getX() < framework.getInnerW()) {
-        character_b.setX(character_b.getX() + 10);
+    rect(enemy.getX(), enemy.getY(), enemy.getW(), enemy.getH());
+    if (enemy.getX() < framework.getInnerW()) {
+        enemy.setX(enemy.getX() + 10);
     }
     else {
-        character_b.setX(framework.getInnerX());
-        character_b.setY(getRandomInt(framework.getInnerY(), framework.getInnerH()));
+        enemy.setX(framework.getInnerX());
+        enemy.setY(getRandomInt(framework.getInnerY(), framework.getInnerH()));
     }
 }
 
