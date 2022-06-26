@@ -1,9 +1,9 @@
 // Var
 var space = new Space(window.innerWidth, window.innerHeight);
-var framework = new Framework(10, 10, space.getW() - 20, space.getH() - 20);
-var mouse = new Mouse(framework.getX(), framework.getY());
-var character_a = new Character("/img/Human.png", framework.getX(), framework.getY(), 10, 10);
-var character_b = new Character(null, framework.getX(), getRandomInt(framework.getY(), framework.getH()), 10, 10);
+var framework = new Framework(0, 4, 255, 0, 0, 0, space.getW(), space.getH());
+var mouse = new Mouse(framework.getInnerX(), framework.getInnerY());
+var character_a = new Character("/img/Human.png", framework.getInnerX(), framework.getInnerY(), 10, 10);
+var character_b = new Character(null, framework.getInnerX(), getRandomInt(framework.getInnerY(), framework.getInnerH()), 10, 10);
 
 function preload()
 {
@@ -17,8 +17,8 @@ function setup() {
 
     canvas = createCanvas(space.getW(), space.getH());
 
-    framework.setW(space.getW() - 20);
-    framework.setH(space.getH() - 20);
+    framework.setInnerW(space.getW() - 20);
+    framework.setInnerH(space.getH() - 20);
 }
 
 // Window onresize (autocall)
@@ -28,28 +28,33 @@ window.onresize = function() {
 
 // Main loop (autocall)
 function draw() {
-    background(255, 0, 0);
+    background(0, 0, 0);
 
+    // framework
     noStroke();
-    fill(0, 0, 0);
+    fill(framework.getEfill());
     rect(framework.getX(), framework.getY(), framework.getW(), framework.getH());
+    strokeWeight(framework.getStrw());
+    stroke(framework.getStr());
+    fill(framework.getIfill());
+    rect(framework.getInnerX(), framework.getInnerY(), framework.getInnerW(), framework.getInnerH());
 
     // character_a
     noStroke();
-    image(img, character_a.getX(), character_a.getY(), character_a.getW(), character_a.getH());
-    if ((character_a.getX() < framework.getW()) &&
+    image(img, character_a.getX() + framework.getStrwHalf(), character_a.getY() + framework.getStrwHalf(), character_a.getW(), character_a.getH());
+    if ((character_a.getX() < (framework.getInnerW() - framework.getStrw())) &&
         (character_a.getX() < mouse.getX())) {
         character_a.setX(character_a.getX() + 1);
     }
-    else if ((character_a.getX() > framework.getX()) &&
+    else if ((character_a.getX() > framework.getInnerX()) &&
         (character_a.getX() > mouse.getX())) {
         character_a.setX(character_a.getX() - 1);
     }
-    if ((character_a.getY() < framework.getH()) &&
+    if ((character_a.getY() < (framework.getInnerH() - framework.getStrw())) &&
         (character_a.getY() < mouse.getY())) {
         character_a.setY(character_a.getY() + 1);
     }
-    else if ((character_a.getY() > framework.getY()) &&
+    else if ((character_a.getY() > framework.getInnerY()) &&
         (character_a.getY() > mouse.getY())) {
         character_a.setY(character_a.getY() - 1);
     }
@@ -58,12 +63,12 @@ function draw() {
     noStroke();
     fill(0, 0, 255);
     rect(character_b.getX(), character_b.getY(), character_b.getW(), character_b.getH());
-    if (character_b.getX() < framework.getW()) {
+    if (character_b.getX() < framework.getInnerW()) {
         character_b.setX(character_b.getX() + 10);
     }
     else {
-        character_b.setX(framework.getX());
-        character_b.setY(getRandomInt(framework.getY(), framework.getH()));
+        character_b.setX(framework.getInnerX());
+        character_b.setY(getRandomInt(framework.getInnerY(), framework.getInnerH()));
     }
 }
 
