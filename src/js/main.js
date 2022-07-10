@@ -1,9 +1,17 @@
+// Import
+import Space from './classSpace.js';
+import Framework from './classFramework';
+import Mouse from './classMouse';
+import Character from './classCharacter';
+
 // Var
 var space = new Space(window.innerWidth, window.innerHeight);
 var framework = new Framework(0, 4, 255, 0, 0, 0, space.getW(), space.getH());
 var mouse = new Mouse(framework.getInnerX(), framework.getInnerY());
-var player = new Character("/img/Human.png", framework.getInnerX(), framework.getInnerY(), 10, 10);
-var enemy = new Character(null, framework.getInnerX(), getRandomInt(framework.getInnerY(), framework.getInnerH()), 10, 10);
+// REVISAR FIXME: Con velocidad de 2 le da por temblar a veces y se sale del framework
+// REVISAR TODO: Cuando el punto anterior este arrglado, hacer una velocidad mas rapida con doble click
+var player = new Character("/img/Human.png", 2, framework.getInnerX(), framework.getInnerY(), 10, 10);
+var enemy = new Character(null, 10, framework.getInnerX(), getRandomInt(framework.getInnerY(), framework.getInnerH()), 10, 10);
 
 function preload()
 {
@@ -30,6 +38,8 @@ window.onresize = function() {
 function draw() {
     background(0, 0, 0);
 
+    // REVISAR TODO: Refactorizar los pintados a pantalla
+
     // framework
     noStroke();
     fill(framework.getEfill());
@@ -44,19 +54,19 @@ function draw() {
     image(img, player.getX() + framework.getStrwHalf(), player.getY() + framework.getStrwHalf(), player.getW(), player.getH());
     if ((player.getX() < (framework.getInnerW() - framework.getStrw())) &&
         (player.getX() < mouse.getX())) {
-        player.setX(player.getX() + 1);
+        player.setX(player.getX() + player.getVel());
     }
     else if ((player.getX() > framework.getInnerX()) &&
         (player.getX() > mouse.getX())) {
-        player.setX(player.getX() - 1);
+        player.setX(player.getX() - player.getVel());
     }
     if ((player.getY() < (framework.getInnerH() - framework.getStrw())) &&
         (player.getY() < mouse.getY())) {
-        player.setY(player.getY() + 1);
+        player.setY(player.getY() + player.getVel());
     }
     else if ((player.getY() > framework.getInnerY()) &&
         (player.getY() > mouse.getY())) {
-        player.setY(player.getY() - 1);
+        player.setY(player.getY() - player.getVel());
     }
 
     // enemy
@@ -64,7 +74,7 @@ function draw() {
     fill(0, 0, 255);
     rect(enemy.getX(), enemy.getY(), enemy.getW(), enemy.getH());
     if (enemy.getX() < framework.getInnerW()) {
-        enemy.setX(enemy.getX() + 10);
+        enemy.setX(enemy.getX() + enemy.getVel());
     }
     else {
         enemy.setX(framework.getInnerX());
