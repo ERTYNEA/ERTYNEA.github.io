@@ -1,9 +1,9 @@
 // Class Character
 class Character extends Square {
-    constructor(img, vel, x, y, w, h) {
+    constructor(img, speed, x, y, w, h) {
         super(x, y, w, h);
         this.img = img;
-        this.vel = vel;
+        this.speed = speed;
     }
 
     getImg() {
@@ -14,11 +14,11 @@ class Character extends Square {
         this.img = img;
     }
 
-    getVel() {
-        return this.vel;
+    getSpeed() {
+        return this.speed;
     }
 
-    setVel(vel) {
-        this.vel = vel;
+    setSpeed(speed) {
+        this.speed = speed;
     }
 }

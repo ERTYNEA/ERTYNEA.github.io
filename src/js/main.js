@@ -1,30 +1,30 @@
-// Import
-import Space from "./classSpace.js";
-import Framework from "./classFramework";
-import Mouse from "./classMouse";
-import Character from "./classCharacter";
-
 // Var
+// REVISAR TODO: Implementar el arrayCharacters en una clase
+var arrayCharacters = [];
 var space = new Space(window.innerWidth, window.innerHeight);
 var framework = new Framework(0, 4, 255, 0, 0, 0, space.getW(), space.getH());
 var mouse = new Mouse(framework.getInnerX(), framework.getInnerY());
 // REVISAR FIXME: Con velocidad de 2 le da por temblar a veces y se sale del framework
 // REVISAR TODO: Cuando el punto anterior este arrglado, hacer una velocidad mas rapida con doble click
-var player = new Character(
-    "/img/Human.png",
-    2,
-    framework.getInnerX(),
-    framework.getInnerY(),
-    10,
-    10
+arrayCharacters.push(
+    (player = new Character(
+        "/img/Human.png",
+        2,
+        framework.getInnerX(),
+        framework.getInnerY(),
+        10,
+        10
+    ))
 );
-var enemy = new Character(
-    null,
-    10,
-    framework.getInnerX(),
-    getRandomInt(framework.getInnerY(), framework.getInnerH()),
-    10,
-    10
+arrayCharacters.push(
+    (enemy = new Character(
+        null,
+        10,
+        framework.getInnerX(),
+        getRandomInt(framework.getInnerY(), framework.getInnerH()),
+        10,
+        10
+    ))
 );
 
 function preload() {
@@ -50,6 +50,11 @@ window.onresize = function () {
 // Main loop (autocall)
 function draw() {
     background(0, 0, 0);
+
+    // REVISAR XXX
+    arrayCharacters.forEach(function (element, i) {
+        console.log(element, i);
+    });
 
     // REVISAR TODO: Refactorizar los pintados a pantalla
 
@@ -85,23 +90,23 @@ function draw() {
         player.getX() < framework.getInnerW() - framework.getStrw() &&
         player.getX() < mouse.getX()
     ) {
-        player.setX(player.getX() + player.getVel());
+        player.setX(player.getX() + player.getSpeed());
     } else if (
         player.getX() > framework.getInnerX() &&
         player.getX() > mouse.getX()
     ) {
-        player.setX(player.getX() - player.getVel());
+        player.setX(player.getX() - player.getSpeed());
     }
     if (
         player.getY() < framework.getInnerH() - framework.getStrw() &&
         player.getY() < mouse.getY()
     ) {
-        player.setY(player.getY() + player.getVel());
+        player.setY(player.getY() + player.getSpeed());
     } else if (
         player.getY() > framework.getInnerY() &&
         player.getY() > mouse.getY()
     ) {
-        player.setY(player.getY() - player.getVel());
+        player.setY(player.getY() - player.getSpeed());
     }
 
     // enemy
@@ -109,7 +114,7 @@ function draw() {
     fill(0, 0, 255);
     rect(enemy.getX(), enemy.getY(), enemy.getW(), enemy.getH());
     if (enemy.getX() < framework.getInnerW()) {
-        enemy.setX(enemy.getX() + enemy.getVel());
+        enemy.setX(enemy.getX() + enemy.getSpeed());
     } else {
         enemy.setX(framework.getInnerX());
         enemy.setY(getRandomInt(framework.getInnerY(), framework.getInnerH()));
