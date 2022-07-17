@@ -1,8 +1,8 @@
 // Import
-import Space from './classSpace.js';
-import Framework from './classFramework';
-import Mouse from './classMouse';
-import Character from './classCharacter';
+import Space from "./classSpace.js";
+import Framework from "./classFramework";
+import Mouse from "./classMouse";
+import Character from "./classCharacter";
 
 // Var
 var space = new Space(window.innerWidth, window.innerHeight);
@@ -10,11 +10,24 @@ var framework = new Framework(0, 4, 255, 0, 0, 0, space.getW(), space.getH());
 var mouse = new Mouse(framework.getInnerX(), framework.getInnerY());
 // REVISAR FIXME: Con velocidad de 2 le da por temblar a veces y se sale del framework
 // REVISAR TODO: Cuando el punto anterior este arrglado, hacer una velocidad mas rapida con doble click
-var player = new Character("/img/Human.png", 2, framework.getInnerX(), framework.getInnerY(), 10, 10);
-var enemy = new Character(null, 10, framework.getInnerX(), getRandomInt(framework.getInnerY(), framework.getInnerH()), 10, 10);
+var player = new Character(
+    "/img/Human.png",
+    2,
+    framework.getInnerX(),
+    framework.getInnerY(),
+    10,
+    10
+);
+var enemy = new Character(
+    null,
+    10,
+    framework.getInnerX(),
+    getRandomInt(framework.getInnerY(), framework.getInnerH()),
+    10,
+    10
+);
 
-function preload()
-{
+function preload() {
     img = loadImage(player.getImg());
 }
 
@@ -30,9 +43,9 @@ function setup() {
 }
 
 // Window onresize (autocall)
-window.onresize = function() {
+window.onresize = function () {
     setup();
-}
+};
 
 // Main loop (autocall)
 function draw() {
@@ -43,29 +56,51 @@ function draw() {
     // framework
     noStroke();
     fill(framework.getEfill());
-    rect(framework.getX(), framework.getY(), framework.getW(), framework.getH());
+    rect(
+        framework.getX(),
+        framework.getY(),
+        framework.getW(),
+        framework.getH()
+    );
     strokeWeight(framework.getStrw());
     stroke(framework.getStr());
     fill(framework.getIfill());
-    rect(framework.getInnerX(), framework.getInnerY(), framework.getInnerW(), framework.getInnerH());
+    rect(
+        framework.getInnerX(),
+        framework.getInnerY(),
+        framework.getInnerW(),
+        framework.getInnerH()
+    );
 
     // player
     noStroke();
-    image(img, player.getX() + framework.getStrwHalf(), player.getY() + framework.getStrwHalf(), player.getW(), player.getH());
-    if ((player.getX() < (framework.getInnerW() - framework.getStrw())) &&
-        (player.getX() < mouse.getX())) {
+    image(
+        img,
+        player.getX() + framework.getStrwHalf(),
+        player.getY() + framework.getStrwHalf(),
+        player.getW(),
+        player.getH()
+    );
+    if (
+        player.getX() < framework.getInnerW() - framework.getStrw() &&
+        player.getX() < mouse.getX()
+    ) {
         player.setX(player.getX() + player.getVel());
-    }
-    else if ((player.getX() > framework.getInnerX()) &&
-        (player.getX() > mouse.getX())) {
+    } else if (
+        player.getX() > framework.getInnerX() &&
+        player.getX() > mouse.getX()
+    ) {
         player.setX(player.getX() - player.getVel());
     }
-    if ((player.getY() < (framework.getInnerH() - framework.getStrw())) &&
-        (player.getY() < mouse.getY())) {
+    if (
+        player.getY() < framework.getInnerH() - framework.getStrw() &&
+        player.getY() < mouse.getY()
+    ) {
         player.setY(player.getY() + player.getVel());
-    }
-    else if ((player.getY() > framework.getInnerY()) &&
-        (player.getY() > mouse.getY())) {
+    } else if (
+        player.getY() > framework.getInnerY() &&
+        player.getY() > mouse.getY()
+    ) {
         player.setY(player.getY() - player.getVel());
     }
 
@@ -75,8 +110,7 @@ function draw() {
     rect(enemy.getX(), enemy.getY(), enemy.getW(), enemy.getH());
     if (enemy.getX() < framework.getInnerW()) {
         enemy.setX(enemy.getX() + enemy.getVel());
-    }
-    else {
+    } else {
         enemy.setX(framework.getInnerX());
         enemy.setY(getRandomInt(framework.getInnerY(), framework.getInnerH()));
     }
