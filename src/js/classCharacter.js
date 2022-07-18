@@ -1,9 +1,27 @@
 // Class Character
 class Character extends Square {
-    constructor(img, speed, x, y, w, h) {
+    constructor(name, type, img, speed, x, y, w, h) {
         super(x, y, w, h);
+        this.name = name;
+        this.type = type;
         this.img = img;
         this.speed = speed;
+    }
+
+    getName() {
+        return this.name;
+    }
+
+    setName(name) {
+        this.name = name;
+    }
+
+    getType() {
+        return this.type;
+    }
+
+    setType(type) {
+        this.type = type;
     }
 
     getImg() {

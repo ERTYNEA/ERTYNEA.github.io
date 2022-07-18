@@ -1,34 +1,42 @@
 // Var
-// REVISAR TODO: Implementar el arrayCharacters en una clase
-var arrayCharacters = [];
+var arrayCharacter = [];
 var space = new Space(window.innerWidth, window.innerHeight);
 var framework = new Framework(0, 4, 255, 0, 0, 0, space.getW(), space.getH());
 var mouse = new Mouse(framework.getInnerX(), framework.getInnerY());
 // REVISAR FIXME: Con velocidad de 2 le da por temblar a veces y se sale del framework
 // REVISAR TODO: Cuando el punto anterior este arrglado, hacer una velocidad mas rapida con doble click
-arrayCharacters.push(
-    (player = new Character(
-        "/img/Human.png",
-        2,
-        framework.getInnerX(),
-        framework.getInnerY(),
-        10,
-        10
-    ))
-);
-arrayCharacters.push(
-    (enemy = new Character(
-        null,
-        10,
-        framework.getInnerX(),
-        getRandomInt(framework.getInnerY(), framework.getInnerH()),
-        10,
-        10
-    ))
-);
 
 function preload() {
-    img = loadImage(player.getImg());
+    // Character
+    arrayCharacter.push(
+        new Character(
+            "Player",
+            "Human",
+            "/img/Human.png",
+            2,
+            framework.getInnerX(),
+            framework.getInnerY(),
+            10,
+            10
+        )
+    );
+    arrayCharacter.push(
+        new Character(
+            "Enemy",
+            "Monster",
+            null,
+            10,
+            framework.getInnerX(),
+            getRandomInt(framework.getInnerY(), framework.getInnerH()),
+            10,
+            10
+        )
+    );
+
+    // Images
+    img = loadImage(
+        arrayCharacter.find((element) => element.name == "Player").getImg()
+    );
 }
 
 // Start canvas (autocall and manualcall)
@@ -51,11 +59,6 @@ window.onresize = function () {
 function draw() {
     background(0, 0, 0);
 
-    // REVISAR XXX
-    arrayCharacters.forEach(function (element, i) {
-        console.log(element, i);
-    });
-
     // REVISAR TODO: Refactorizar los pintados a pantalla
 
     // framework
@@ -77,47 +80,114 @@ function draw() {
         framework.getInnerH()
     );
 
-    // player
+    // Player
     noStroke();
     image(
         img,
-        player.getX() + framework.getStrwHalf(),
-        player.getY() + framework.getStrwHalf(),
-        player.getW(),
-        player.getH()
+        arrayCharacter.find((element) => element.name == "Player").getX() +
+            framework.getStrwHalf(),
+        arrayCharacter.find((element) => element.name == "Player").getY() +
+            framework.getStrwHalf(),
+        arrayCharacter.find((element) => element.name == "Player").getW(),
+        arrayCharacter.find((element) => element.name == "Player").getH()
     );
     if (
-        player.getX() < framework.getInnerW() - framework.getStrw() &&
-        player.getX() < mouse.getX()
+        arrayCharacter.find((element) => element.name == "Player").getX() <
+            framework.getInnerW() - framework.getStrw() &&
+        arrayCharacter.find((element) => element.name == "Player").getX() <
+            mouse.getX()
     ) {
-        player.setX(player.getX() + player.getSpeed());
+        arrayCharacter
+            .find((element) => element.name == "Player")
+            .setX(
+                arrayCharacter
+                    .find((element) => element.name == "Player")
+                    .getX() +
+                    arrayCharacter
+                        .find((element) => element.name == "Player")
+                        .getSpeed()
+            );
     } else if (
-        player.getX() > framework.getInnerX() &&
-        player.getX() > mouse.getX()
+        arrayCharacter.find((element) => element.name == "Player").getX() >
+            framework.getInnerX() &&
+        arrayCharacter.find((element) => element.name == "Player").getX() >
+            mouse.getX()
     ) {
-        player.setX(player.getX() - player.getSpeed());
+        arrayCharacter
+            .find((element) => element.name == "Player")
+            .setX(
+                arrayCharacter
+                    .find((element) => element.name == "Player")
+                    .getX() -
+                    arrayCharacter
+                        .find((element) => element.name == "Player")
+                        .getSpeed()
+            );
     }
     if (
-        player.getY() < framework.getInnerH() - framework.getStrw() &&
-        player.getY() < mouse.getY()
+        arrayCharacter.find((element) => element.name == "Player").getY() <
+            framework.getInnerH() - framework.getStrw() &&
+        arrayCharacter.find((element) => element.name == "Player").getY() <
+            mouse.getY()
     ) {
-        player.setY(player.getY() + player.getSpeed());
+        arrayCharacter
+            .find((element) => element.name == "Player")
+            .setY(
+                arrayCharacter
+                    .find((element) => element.name == "Player")
+                    .getY() +
+                    arrayCharacter
+                        .find((element) => element.name == "Player")
+                        .getSpeed()
+            );
     } else if (
-        player.getY() > framework.getInnerY() &&
-        player.getY() > mouse.getY()
+        arrayCharacter.find((element) => element.name == "Player").getY() >
+            framework.getInnerY() &&
+        arrayCharacter.find((element) => element.name == "Player").getY() >
+            mouse.getY()
     ) {
-        player.setY(player.getY() - player.getSpeed());
+        arrayCharacter
+            .find((element) => element.name == "Player")
+            .setY(
+                arrayCharacter
+                    .find((element) => element.name == "Player")
+                    .getY() -
+                    arrayCharacter
+                        .find((element) => element.name == "Player")
+                        .getSpeed()
+            );
     }
 
-    // enemy
+    // Enemy
     noStroke();
     fill(0, 0, 255);
-    rect(enemy.getX(), enemy.getY(), enemy.getW(), enemy.getH());
-    if (enemy.getX() < framework.getInnerW()) {
-        enemy.setX(enemy.getX() + enemy.getSpeed());
+    rect(
+        arrayCharacter.find((element) => element.name == "Enemy").getX(),
+        arrayCharacter.find((element) => element.name == "Enemy").getY(),
+        arrayCharacter.find((element) => element.name == "Enemy").getW(),
+        arrayCharacter.find((element) => element.name == "Enemy").getH()
+    );
+    if (
+        arrayCharacter.find((element) => element.name == "Enemy").getX() <
+        framework.getInnerW()
+    ) {
+        arrayCharacter
+            .find((element) => element.name == "Enemy")
+            .setX(
+                arrayCharacter
+                    .find((element) => element.name == "Enemy")
+                    .getX() +
+                    arrayCharacter
+                        .find((element) => element.name == "Enemy")
+                        .getSpeed()
+            );
     } else {
-        enemy.setX(framework.getInnerX());
-        enemy.setY(getRandomInt(framework.getInnerY(), framework.getInnerH()));
+        arrayCharacter
+            .find((element) => element.name == "Enemy")
+            .setX(framework.getInnerX());
+        arrayCharacter
+            .find((element) => element.name == "Enemy")
+            .setY(getRandomInt(framework.getInnerY(), framework.getInnerH()));
     }
 }
 
