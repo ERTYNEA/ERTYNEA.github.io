@@ -7,6 +7,10 @@ var mouse = new Mouse(framework.getInnerX(), framework.getInnerY());
 // REVISAR TODO: Cuando el punto anterior este arrglado, hacer una velocidad mas rapida con doble click
 
 function preload() {
+    // Position
+    InitialX = framework.getInnerX() + framework.getStrwHalf();
+    InitialY = framework.getInnerY() + framework.getStrwHalf();
+
     // Character
     arrayCharacter.push(
         new Character(
@@ -14,8 +18,8 @@ function preload() {
             "Human",
             "/img/Human.png",
             2,
-            framework.getInnerX(),
-            framework.getInnerY(),
+            InitialX,
+            InitialY,
             10,
             10
         )
@@ -26,7 +30,8 @@ function preload() {
             "Monster",
             null,
             10,
-            framework.getInnerX(),
+            InitialX,
+            // REVISAR XXX: Se mantiene pero no cuadra correctamente con el framework
             getRandomInt(framework.getInnerY(), framework.getInnerH()),
             10,
             10
@@ -84,10 +89,8 @@ function draw() {
     noStroke();
     image(
         img,
-        arrayCharacter.find((element) => element.name == "Player").getX() +
-            framework.getStrwHalf(),
-        arrayCharacter.find((element) => element.name == "Player").getY() +
-            framework.getStrwHalf(),
+        arrayCharacter.find((element) => element.name == "Player").getX(),
+        arrayCharacter.find((element) => element.name == "Player").getY(),
         arrayCharacter.find((element) => element.name == "Player").getW(),
         arrayCharacter.find((element) => element.name == "Player").getH()
     );
@@ -109,7 +112,7 @@ function draw() {
             );
     } else if (
         arrayCharacter.find((element) => element.name == "Player").getX() >
-            framework.getInnerX() &&
+            framework.getInnerX() + framework.getStrwHalf() &&
         arrayCharacter.find((element) => element.name == "Player").getX() >
             mouse.getX()
     ) {
@@ -142,7 +145,7 @@ function draw() {
             );
     } else if (
         arrayCharacter.find((element) => element.name == "Player").getY() >
-            framework.getInnerY() &&
+            framework.getInnerY() + framework.getStrwHalf() &&
         arrayCharacter.find((element) => element.name == "Player").getY() >
             mouse.getY()
     ) {
