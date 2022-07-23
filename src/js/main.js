@@ -17,7 +17,7 @@ function preload() {
             "Player",
             "Human",
             "/img/Human.png",
-            2,
+            1,
             InitialX,
             InitialY,
             10,
@@ -95,8 +95,11 @@ function draw() {
         arrayCharacter.find((element) => element.name == "Player").getH()
     );
     if (
-        arrayCharacter.find((element) => element.name == "Player").getX() <
-            framework.getInnerW() - framework.getStrw() &&
+        arrayCharacter.find((element) => element.name == "Player").getX() +
+            arrayCharacter.find((element) => element.name == "Player").getW() <
+            framework.getInnerX() +
+                framework.getInnerW() -
+                framework.getStrwHalf() &&
         arrayCharacter.find((element) => element.name == "Player").getX() <
             mouse.getX()
     ) {
@@ -128,8 +131,11 @@ function draw() {
             );
     }
     if (
-        arrayCharacter.find((element) => element.name == "Player").getY() <
-            framework.getInnerH() - framework.getStrw() &&
+        arrayCharacter.find((element) => element.name == "Player").getY() +
+            arrayCharacter.find((element) => element.name == "Player").getH() <
+            framework.getInnerY() +
+                framework.getInnerH() -
+                framework.getStrwHalf() &&
         arrayCharacter.find((element) => element.name == "Player").getY() <
             mouse.getY()
     ) {
