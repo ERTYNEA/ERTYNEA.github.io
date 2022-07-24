@@ -2,22 +2,20 @@
 var arrayCharacter = [];
 var space = new Space(window.innerWidth, window.innerHeight);
 var framework = new Framework(0, 4, 255, 0, 0, 0, space.getW(), space.getH());
-var mouse = new Mouse(framework.getInnerX(), framework.getInnerY());
-// REVISAR FIXME: Con velocidad de 2 le da por temblar a veces y se sale del framework
-// REVISAR TODO: Cuando el punto anterior este arrglado, hacer una velocidad mas rapida con doble click
+var InitialX = framework.getInnerX() + framework.getStrwHalf();
+var InitialY = framework.getInnerY() + framework.getStrwHalf();
+var mouse = new Mouse(InitialX, InitialY);
+// REVISAR FIXME: Con velocidad superior a 1 se sale del framework
+// REVISAR TODO: Cuando el punto anterior este arreglado, hacer una velocidad mas rapida con doble click
 
 function preload() {
-    // Position
-    InitialX = framework.getInnerX() + framework.getStrwHalf();
-    InitialY = framework.getInnerY() + framework.getStrwHalf();
-
     // Character
     arrayCharacter.push(
         new Character(
             "Player",
             "Human",
             "/img/Human.png",
-            1,
+            2,
             InitialX,
             InitialY,
             10,
@@ -64,8 +62,6 @@ window.onresize = function () {
 function draw() {
     background(0, 0, 0);
 
-    // REVISAR TODO: Refactorizar los pintados a pantalla
-
     // framework
     noStroke();
     fill(framework.getEfill());
@@ -103,32 +99,56 @@ function draw() {
         arrayCharacter.find((element) => element.name == "Player").getX() <
             mouse.getX()
     ) {
-        arrayCharacter
-            .find((element) => element.name == "Player")
-            .setX(
+        if (
+            arrayCharacter.find((element) => element.name == "Player").getX() +
                 arrayCharacter
                     .find((element) => element.name == "Player")
-                    .getX() +
+                    .getSpeed() <=
+            mouse.getX()
+        ) {
+            arrayCharacter
+                .find((element) => element.name == "Player")
+                .setX(
                     arrayCharacter
                         .find((element) => element.name == "Player")
-                        .getSpeed()
-            );
+                        .getX() +
+                        arrayCharacter
+                            .find((element) => element.name == "Player")
+                            .getSpeed()
+                );
+        } else {
+            arrayCharacter
+                .find((element) => element.name == "Player")
+                .setX(mouse.getX());
+        }
     } else if (
         arrayCharacter.find((element) => element.name == "Player").getX() >
             framework.getInnerX() + framework.getStrwHalf() &&
         arrayCharacter.find((element) => element.name == "Player").getX() >
             mouse.getX()
     ) {
-        arrayCharacter
-            .find((element) => element.name == "Player")
-            .setX(
+        if (
+            arrayCharacter.find((element) => element.name == "Player").getX() -
                 arrayCharacter
                     .find((element) => element.name == "Player")
-                    .getX() -
+                    .getSpeed() >=
+            mouse.getX()
+        ) {
+            arrayCharacter
+                .find((element) => element.name == "Player")
+                .setX(
                     arrayCharacter
                         .find((element) => element.name == "Player")
-                        .getSpeed()
-            );
+                        .getX() -
+                        arrayCharacter
+                            .find((element) => element.name == "Player")
+                            .getSpeed()
+                );
+        } else {
+            arrayCharacter
+                .find((element) => element.name == "Player")
+                .setX(mouse.getX());
+        }
     }
     if (
         arrayCharacter.find((element) => element.name == "Player").getY() +
@@ -149,22 +169,56 @@ function draw() {
                         .find((element) => element.name == "Player")
                         .getSpeed()
             );
+        if (
+            arrayCharacter.find((element) => element.name == "Player").getY() +
+                arrayCharacter
+                    .find((element) => element.name == "Player")
+                    .getSpeed() <=
+            mouse.getY()
+        ) {
+            arrayCharacter
+                .find((element) => element.name == "Player")
+                .setY(
+                    arrayCharacter
+                        .find((element) => element.name == "Player")
+                        .getY() +
+                        arrayCharacter
+                            .find((element) => element.name == "Player")
+                            .getSpeed()
+                );
+        } else {
+            arrayCharacter
+                .find((element) => element.name == "Player")
+                .setY(mouse.getY());
+        }
     } else if (
         arrayCharacter.find((element) => element.name == "Player").getY() >
             framework.getInnerY() + framework.getStrwHalf() &&
         arrayCharacter.find((element) => element.name == "Player").getY() >
             mouse.getY()
     ) {
-        arrayCharacter
-            .find((element) => element.name == "Player")
-            .setY(
+        if (
+            arrayCharacter.find((element) => element.name == "Player").getY() -
                 arrayCharacter
                     .find((element) => element.name == "Player")
-                    .getY() -
+                    .getSpeed() >=
+            mouse.getY()
+        ) {
+            arrayCharacter
+                .find((element) => element.name == "Player")
+                .setY(
                     arrayCharacter
                         .find((element) => element.name == "Player")
-                        .getSpeed()
-            );
+                        .getY() -
+                        arrayCharacter
+                            .find((element) => element.name == "Player")
+                            .getSpeed()
+                );
+        } else {
+            arrayCharacter
+                .find((element) => element.name == "Player")
+                .setY(mouse.getY());
+        }
     }
 
     // Enemy
