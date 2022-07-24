@@ -5,8 +5,8 @@ var framework = new Framework(0, 4, 255, 0, 0, 0, space.getW(), space.getH());
 var InitialX = framework.getInnerX() + framework.getStrwHalf();
 var InitialY = framework.getInnerY() + framework.getStrwHalf();
 var mouse = new Mouse(InitialX, InitialY);
+var InitialSpeed = 2;
 // REVISAR FIXME: Con velocidad superior a 1 se sale del framework
-// REVISAR TODO: Cuando el punto anterior este arreglado, hacer una velocidad mas rapida con doble click
 
 function preload() {
     // Character
@@ -15,7 +15,7 @@ function preload() {
             "Player",
             "Human",
             "/img/Human.png",
-            2,
+            InitialSpeed,
             InitialX,
             InitialY,
             10,
@@ -260,6 +260,29 @@ function getRandomInt(min, max) {
 }
 
 function mousePressed() {
+    var mouseTempX = mouse.getX();
+    var mouseTempY = mouse.getY();
+
     mouse.setX(mouseX);
     mouse.setY(mouseY);
+
+    if (mouseTempX == mouse.getX() && mouseTempY == mouse.getY()) {
+        if (
+            arrayCharacter
+                .find((element) => element.name == "Player")
+                .getSpeed() < 5
+        ) {
+            arrayCharacter
+                .find((element) => element.name == "Player")
+                .setSpeed(
+                    arrayCharacter
+                        .find((element) => element.name == "Player")
+                        .getSpeed() + 1
+                );
+        }
+    } else {
+        arrayCharacter
+            .find((element) => element.name == "Player")
+            .setSpeed(InitialSpeed);
+    }
 }
