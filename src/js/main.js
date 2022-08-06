@@ -343,9 +343,9 @@ function draw() {
     }
 }
 
-// Random int with min (included) and max (excluded)
+// Random int with min (included) and max (included)
 function getRandomInt(min, max) {
-    return Math.random() * (max - min) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function mousePressed() {
