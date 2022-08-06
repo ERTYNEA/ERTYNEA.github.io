@@ -2,13 +2,10 @@
 var arrayStructure = [];
 var arrayCharacter = [];
 var space = new Space(window.innerWidth, window.innerHeight);
-// REVISAR TODO: Cambiar el framework simple por el Framework del Hub
-var framework = new Framework(0, 4, 255, 0, 0, 0, space.getW(), space.getH());
-var InitialX = framework.getInnerX() + framework.getStrwHalf();
-var InitialY = framework.getInnerY() + framework.getStrwHalf();
+var InitialX = 10;
+var InitialY = 10;
 var mouse = new Mouse(InitialX, InitialY);
 var InitialSpeed = 2;
-// REVISAR FIXME: Con velocidad superior a 1 se sale del framework
 
 function preload() {
     // Structure
@@ -17,7 +14,7 @@ function preload() {
             "Framework",
             "Hub",
             255,
-            0,
+            255,
             0,
             0,
             0,
@@ -25,7 +22,7 @@ function preload() {
             space.getH(),
             0,
             0,
-            255,
+            0,
             10,
             10,
             space.getW() - 20,
@@ -53,8 +50,15 @@ function preload() {
             null,
             10,
             InitialX,
-            // REVISAR XXX: Se mantiene pero no cuadra correctamente con el framework
-            getRandomInt(framework.getInnerY(), framework.getInnerH()),
+            // REVISAR XXX: Cuadra correctamente con el Framework?
+            getRandomInt(
+                arrayStructure
+                    .find((element) => element.name == "Framework")
+                    .getIntY(),
+                arrayStructure
+                    .find((element) => element.name == "Framework")
+                    .getIntH()
+            ),
             10,
             10
         )
@@ -85,10 +89,6 @@ function setup() {
     arrayStructure
         .find((element) => element.name == "Framework")
         .setIntH(space.getH() - 20);
-
-    // REVISAR TODO: Cambiar el framework simple por el Framework del Hub
-    framework.setInnerW(space.getW() - 20);
-    framework.setInnerH(space.getH() - 20);
 }
 
 // Window onresize (autocall)
@@ -99,28 +99,6 @@ window.onresize = function () {
 // Main loop (autocall)
 function draw() {
     background(0, 0, 0);
-
-    // REVISAR TODO: Cambiar el framework simple por el Framework del Hub
-    // framework
-    /*
-    noStroke();
-    fill(framework.getEfill());
-    rect(
-        framework.getX(),
-        framework.getY(),
-        framework.getW(),
-        framework.getH()
-    );
-    strokeWeight(framework.getStrw());
-    stroke(framework.getStr());
-    fill(framework.getIfill());
-    rect(
-        framework.getInnerX(),
-        framework.getInnerY(),
-        framework.getInnerW(),
-        framework.getInnerH()
-    );
-    */
 
     // Framework
     noStroke();
@@ -169,12 +147,16 @@ function draw() {
         arrayCharacter.find((element) => element.name == "Player").getW(),
         arrayCharacter.find((element) => element.name == "Player").getH()
     );
+    // REVISAR FIXME: Se sale del Framework con velocidad de 1? y superiores
     if (
         arrayCharacter.find((element) => element.name == "Player").getX() +
             arrayCharacter.find((element) => element.name == "Player").getW() <
-            framework.getInnerX() +
-                framework.getInnerW() -
-                framework.getStrwHalf() &&
+            arrayStructure
+                .find((element) => element.name == "Framework")
+                .getIntX() +
+                arrayStructure
+                    .find((element) => element.name == "Framework")
+                    .getIntW() &&
         arrayCharacter.find((element) => element.name == "Player").getX() <
             mouse.getX()
     ) {
@@ -202,7 +184,9 @@ function draw() {
         }
     } else if (
         arrayCharacter.find((element) => element.name == "Player").getX() >
-            framework.getInnerX() + framework.getStrwHalf() &&
+            arrayStructure
+                .find((element) => element.name == "Framework")
+                .getIntX() &&
         arrayCharacter.find((element) => element.name == "Player").getX() >
             mouse.getX()
     ) {
@@ -232,9 +216,12 @@ function draw() {
     if (
         arrayCharacter.find((element) => element.name == "Player").getY() +
             arrayCharacter.find((element) => element.name == "Player").getH() <
-            framework.getInnerY() +
-                framework.getInnerH() -
-                framework.getStrwHalf() &&
+            arrayStructure
+                .find((element) => element.name == "Framework")
+                .getIntY() +
+                arrayStructure
+                    .find((element) => element.name == "Framework")
+                    .getIntH() &&
         arrayCharacter.find((element) => element.name == "Player").getY() <
             mouse.getY()
     ) {
@@ -272,7 +259,9 @@ function draw() {
         }
     } else if (
         arrayCharacter.find((element) => element.name == "Player").getY() >
-            framework.getInnerY() + framework.getStrwHalf() &&
+            arrayStructure
+                .find((element) => element.name == "Framework")
+                .getIntY() &&
         arrayCharacter.find((element) => element.name == "Player").getY() >
             mouse.getY()
     ) {
@@ -311,7 +300,12 @@ function draw() {
     );
     if (
         arrayCharacter.find((element) => element.name == "Enemy").getX() <
-        framework.getInnerW()
+        arrayStructure
+            .find((element) => element.name == "Framework")
+            .getIntX() +
+            arrayStructure
+                .find((element) => element.name == "Framework")
+                .getIntW()
     ) {
         arrayCharacter
             .find((element) => element.name == "Enemy")
@@ -326,10 +320,26 @@ function draw() {
     } else {
         arrayCharacter
             .find((element) => element.name == "Enemy")
-            .setX(framework.getInnerX());
+            .setX(
+                arrayStructure
+                    .find((element) => element.name == "Framework")
+                    .getIntX()
+            );
         arrayCharacter
             .find((element) => element.name == "Enemy")
-            .setY(getRandomInt(framework.getInnerY(), framework.getInnerH()));
+            .setY(
+                getRandomInt(
+                    arrayStructure
+                        .find((element) => element.name == "Framework")
+                        .getIntY(),
+                    arrayStructure
+                        .find((element) => element.name == "Framework")
+                        .getIntY() +
+                        arrayStructure
+                            .find((element) => element.name == "Framework")
+                            .getIntH()
+                )
+            );
     }
 }
 
