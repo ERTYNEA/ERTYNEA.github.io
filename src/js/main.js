@@ -1,6 +1,8 @@
 // Var
+var arrayStructure = [];
 var arrayCharacter = [];
 var space = new Space(window.innerWidth, window.innerHeight);
+// REVISAR TODO: Cambiar el framework simple por el Framework del Hub
 var framework = new Framework(0, 4, 255, 0, 0, 0, space.getW(), space.getH());
 var InitialX = framework.getInnerX() + framework.getStrwHalf();
 var InitialY = framework.getInnerY() + framework.getStrwHalf();
@@ -9,6 +11,28 @@ var InitialSpeed = 2;
 // REVISAR FIXME: Con velocidad superior a 1 se sale del framework
 
 function preload() {
+    // Structure
+    arrayStructure.push(
+        new Structure(
+            "Framework",
+            "Hub",
+            255,
+            0,
+            0,
+            0,
+            0,
+            space.getW(),
+            space.getH(),
+            0,
+            0,
+            255,
+            10,
+            10,
+            space.getW() - 20,
+            space.getH() - 20
+        )
+    );
+
     // Character
     arrayCharacter.push(
         new Character(
@@ -49,6 +73,20 @@ function setup() {
 
     canvas = createCanvas(space.getW(), space.getH());
 
+    arrayStructure
+        .find((element) => element.name == "Framework")
+        .setExtW(space.getW());
+    arrayStructure
+        .find((element) => element.name == "Framework")
+        .setExtH(space.getH());
+    arrayStructure
+        .find((element) => element.name == "Framework")
+        .setIntW(space.getW() - 20);
+    arrayStructure
+        .find((element) => element.name == "Framework")
+        .setIntH(space.getH() - 20);
+
+    // REVISAR TODO: Cambiar el framework simple por el Framework del Hub
     framework.setInnerW(space.getW() - 20);
     framework.setInnerH(space.getH() - 20);
 }
@@ -62,7 +100,9 @@ window.onresize = function () {
 function draw() {
     background(0, 0, 0);
 
+    // REVISAR TODO: Cambiar el framework simple por el Framework del Hub
     // framework
+    /*
     noStroke();
     fill(framework.getEfill());
     rect(
@@ -79,6 +119,45 @@ function draw() {
         framework.getInnerY(),
         framework.getInnerW(),
         framework.getInnerH()
+    );
+    */
+
+    // Framework
+    noStroke();
+    fill(
+        arrayStructure
+            .find((element) => element.name == "Framework")
+            .getExtColorR(),
+        arrayStructure
+            .find((element) => element.name == "Framework")
+            .getExtColorG(),
+        arrayStructure
+            .find((element) => element.name == "Framework")
+            .getExtColorB()
+    );
+    rect(
+        arrayStructure.find((element) => element.name == "Framework").getExtX(),
+        arrayStructure.find((element) => element.name == "Framework").getExtY(),
+        arrayStructure.find((element) => element.name == "Framework").getExtW(),
+        arrayStructure.find((element) => element.name == "Framework").getExtH()
+    );
+    noStroke();
+    fill(
+        arrayStructure
+            .find((element) => element.name == "Framework")
+            .getIntColorR(),
+        arrayStructure
+            .find((element) => element.name == "Framework")
+            .getIntColorG(),
+        arrayStructure
+            .find((element) => element.name == "Framework")
+            .getIntColorB()
+    );
+    rect(
+        arrayStructure.find((element) => element.name == "Framework").getIntX(),
+        arrayStructure.find((element) => element.name == "Framework").getIntY(),
+        arrayStructure.find((element) => element.name == "Framework").getIntW(),
+        arrayStructure.find((element) => element.name == "Framework").getIntH()
     );
 
     // Player
