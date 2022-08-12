@@ -147,18 +147,10 @@ function draw() {
         arrayCharacter.find((element) => element.name == "Player").getW(),
         arrayCharacter.find((element) => element.name == "Player").getH()
     );
-    // REVISAR FIXME: Se sale del Framework con velocidad de 1? y superiores
+    // REVISAR TODO: Aplicar el nuevo sistema de colisiones
     if (
-        arrayCharacter.find((element) => element.name == "Player").getX() +
-            arrayCharacter.find((element) => element.name == "Player").getW() <
-            arrayStructure
-                .find((element) => element.name == "Framework")
-                .getIntX() +
-                arrayStructure
-                    .find((element) => element.name == "Framework")
-                    .getIntW() &&
         arrayCharacter.find((element) => element.name == "Player").getX() <
-            mouse.getX()
+        mouse.getX()
     ) {
         if (
             arrayCharacter.find((element) => element.name == "Player").getX() +
@@ -184,11 +176,7 @@ function draw() {
         }
     } else if (
         arrayCharacter.find((element) => element.name == "Player").getX() >
-            arrayStructure
-                .find((element) => element.name == "Framework")
-                .getIntX() &&
-        arrayCharacter.find((element) => element.name == "Player").getX() >
-            mouse.getX()
+        mouse.getX()
     ) {
         if (
             arrayCharacter.find((element) => element.name == "Player").getX() -
@@ -214,27 +202,9 @@ function draw() {
         }
     }
     if (
-        arrayCharacter.find((element) => element.name == "Player").getY() +
-            arrayCharacter.find((element) => element.name == "Player").getH() <
-            arrayStructure
-                .find((element) => element.name == "Framework")
-                .getIntY() +
-                arrayStructure
-                    .find((element) => element.name == "Framework")
-                    .getIntH() &&
         arrayCharacter.find((element) => element.name == "Player").getY() <
-            mouse.getY()
+        mouse.getY()
     ) {
-        arrayCharacter
-            .find((element) => element.name == "Player")
-            .setY(
-                arrayCharacter
-                    .find((element) => element.name == "Player")
-                    .getY() +
-                    arrayCharacter
-                        .find((element) => element.name == "Player")
-                        .getSpeed()
-            );
         if (
             arrayCharacter.find((element) => element.name == "Player").getY() +
                 arrayCharacter
@@ -259,11 +229,7 @@ function draw() {
         }
     } else if (
         arrayCharacter.find((element) => element.name == "Player").getY() >
-            arrayStructure
-                .find((element) => element.name == "Framework")
-                .getIntY() &&
-        arrayCharacter.find((element) => element.name == "Player").getY() >
-            mouse.getY()
+        mouse.getY()
     ) {
         if (
             arrayCharacter.find((element) => element.name == "Player").getY() -
