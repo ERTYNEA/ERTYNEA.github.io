@@ -289,6 +289,91 @@ function draw() {
         }
     }
 
+    // REVISAR XXX: Test nuevo sistema de colisiones
+    console.log(
+        "Player X: " +
+            arrayCharacter.find((element) => element.name == "Player").getX()
+    );
+    console.log(
+        "Player Y: " +
+            arrayCharacter.find((element) => element.name == "Player").getY()
+    );
+    console.log(
+        "Player X + W: " +
+            (arrayCharacter.find((element) => element.name == "Player").getX() +
+                arrayCharacter
+                    .find((element) => element.name == "Player")
+                    .getW())
+    );
+    console.log(
+        "Player Y + H: " +
+            (arrayCharacter.find((element) => element.name == "Player").getY() +
+                arrayCharacter
+                    .find((element) => element.name == "Player")
+                    .getH())
+    );
+    console.log(
+        "Framework ExtX: " +
+            arrayStructure
+                .find((element) => element.name == "Framework")
+                .getExtX()
+    );
+    console.log(
+        "Framework ExtY: " +
+            arrayStructure
+                .find((element) => element.name == "Framework")
+                .getExtY()
+    );
+    console.log(
+        "Framework ExtX + ExtW: " +
+            (arrayStructure
+                .find((element) => element.name == "Framework")
+                .getExtX() +
+                arrayStructure
+                    .find((element) => element.name == "Framework")
+                    .getExtW())
+    );
+    console.log(
+        "Framework ExtY + ExtH: " +
+            (arrayStructure
+                .find((element) => element.name == "Framework")
+                .getExtY() +
+                arrayStructure
+                    .find((element) => element.name == "Framework")
+                    .getExtH())
+    );
+    console.log(
+        "Framework IntX: " +
+            arrayStructure
+                .find((element) => element.name == "Framework")
+                .getIntX()
+    );
+    console.log(
+        "Framework IntY: " +
+            arrayStructure
+                .find((element) => element.name == "Framework")
+                .getIntY()
+    );
+    console.log(
+        "Framework IntX + IntW: " +
+            (arrayStructure
+                .find((element) => element.name == "Framework")
+                .getIntX() +
+                arrayStructure
+                    .find((element) => element.name == "Framework")
+                    .getIntW())
+    );
+    console.log(
+        "Framework IntY + IntH: " +
+            (arrayStructure
+                .find((element) => element.name == "Framework")
+                .getIntY() +
+                arrayStructure
+                    .find((element) => element.name == "Framework")
+                    .getIntH())
+    );
+    console.log("Collision: " + getCollisionCharacterStructure("Player"));
+
     // Enemy
     noStroke();
     fill(0, 0, 255);
@@ -341,6 +426,21 @@ function draw() {
                 )
             );
     }
+}
+
+// Collision Character Structure
+function getCollisionCharacterStructure(nameCharacter) {
+    // REVISAR XXX: Test nuevo sistema de colisiones
+    console.log(
+        arrayCharacter.find((element) => element.name == nameCharacter)
+    );
+    arrayStructure.forEach(function (elementStructure) {
+        // REVISAR XXX: Test nuevo sistema de colisiones
+        console.log(elementStructure);
+        // REVISAR TODO: Realizar el sistema de colisiones considerando velocidad = 1
+        // REVISAR TODO: Ampliar el sistema de colisiones considerando velocidades > 1
+    });
+    return false;
 }
 
 // Random int with min (included) and max (included)
