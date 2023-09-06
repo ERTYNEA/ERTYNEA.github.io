@@ -9,8 +9,11 @@ var activateDebugger = true;
 var arrayWorld = [];
 
 // The numbers `resolution` indicate the scale that the game world will have.
-var resolutionW = 320;
-var resolutionH = 200;
+var resolutionW = 80;
+var resolutionH = 50;
+
+// The `Img` objects are where we will store the images
+var imgPlayer;
 
 // The object `space` is used to store the window dimensions.
 var space = new Space(window.innerWidth, window.innerHeight);
@@ -27,26 +30,29 @@ var canvas;
 function preload() {
     // We initialize the two-dimensional array `arrayWorld` to contain the game world and represent it on the screen later.
     arrayWorld = new Array(resolutionW);
-    for (var i = 0; i < arrayWorld.length; i++) {
+    for (let i = 0; i < arrayWorld.length; i++) {
         arrayWorld[i] = new Array(resolutionH);
     }
 
-    // We initialize playerCharacter, which represents the player.
-    let playerCharacter = new Character(
-        "Player",
-        "Human",
-        "/img/Human.png",
-        1,
-        0,
-        0,
-        10,
-        10
-    );
+    // We initialize `nothingCharacter`, which represents the nothing.
+    let nothingCharacter = new Character("Nothing", "World", "", 0);
+
+    // We fill the two-dimensional array `arrayWorld` so that it contains `nothingCharacter` in all its cells by default.
+    for (let i = 0; i < resolutionW; i++) {
+        for (let j = 0; j < resolutionH; j++) {
+            // We insert into the two-dimensional array `arrayWorld` the `nothingCharacter`.
+            // We will use the specified positions.
+            insertIntoTwoDimensionalArray(arrayWorld, nothingCharacter, i, j);
+        }
+    }
+
+    // We initialize `playerCharacter`, which represents the player.
+    let playerCharacter = new Character("Player", "Human", "/img/Human.png", 1);
 
     // We initialize a pair of temporary numeric variables `tempPosition`.
-    // We will use the `randomNumber` function for this, which will receive 0 and the `resolution` numbers as parameters.
-    let tempPositionX = randomNumber(0, resolutionW);
-    let tempPositionY = randomNumber(0, resolutionH);
+    // We will use the `randomNumber` function for this, which will receive 0 and the `resolution` (- 1) numbers as parameters.
+    let tempPositionX = randomNumber(0, resolutionW - 1);
+    let tempPositionY = randomNumber(0, resolutionH - 1);
 
     // We will use the `consoleDebugger` function to display the values of the temporary numeric variables `tempPosition`.
     consoleDebugger(
@@ -84,7 +90,7 @@ function preload() {
     );
 
     // We load the `img`.
-    let imgPlayer = loadImage(imgPlayerPath);
+    imgPlayer = loadImage(imgPlayerPath);
 }
 
 // The `setup` function runs once at the beginning of the game.
@@ -113,298 +119,20 @@ function draw() {
     // We use the `noStroke` function call to disable outline strokes when drawing shapes on the game canvas.
     noStroke();
 
-    /*
-    fill(
-        arrayStructure
-            .find((element) => element.name == "Framework")
-            .getExtColorR(),
-        arrayStructure
-            .find((element) => element.name == "Framework")
-            .getExtColorG(),
-        arrayStructure
-            .find((element) => element.name == "Framework")
-            .getExtColorB()
-    );
-    rect(
-        arrayStructure.find((element) => element.name == "Framework").getExtX(),
-        arrayStructure.find((element) => element.name == "Framework").getExtY(),
-        arrayStructure.find((element) => element.name == "Framework").getExtW(),
-        arrayStructure.find((element) => element.name == "Framework").getExtH()
-    );
-    noStroke();
-    fill(
-        arrayStructure
-            .find((element) => element.name == "Framework")
-            .getIntColorR(),
-        arrayStructure
-            .find((element) => element.name == "Framework")
-            .getIntColorG(),
-        arrayStructure
-            .find((element) => element.name == "Framework")
-            .getIntColorB()
-    );
-    rect(
-        arrayStructure.find((element) => element.name == "Framework").getIntX(),
-        arrayStructure.find((element) => element.name == "Framework").getIntY(),
-        arrayStructure.find((element) => element.name == "Framework").getIntW(),
-        arrayStructure.find((element) => element.name == "Framework").getIntH()
-    );
-
-    // Player
-    noStroke();
-    image(
-        img,
-        arrayCharacter.find((element) => element.name == "Player").getX(),
-        arrayCharacter.find((element) => element.name == "Player").getY(),
-        arrayCharacter.find((element) => element.name == "Player").getW(),
-        arrayCharacter.find((element) => element.name == "Player").getH()
-    );
-    // REVISAR TODO: Aplicar el nuevo sistema de colisiones
-    if (
-        arrayCharacter.find((element) => element.name == "Player").getX() <
-        mouse.getX()
-    ) {
-        if (
-            arrayCharacter.find((element) => element.name == "Player").getX() +
-                arrayCharacter
-                    .find((element) => element.name == "Player")
-                    .getSpeed() <=
-            mouse.getX()
-        ) {
-            arrayCharacter
-                .find((element) => element.name == "Player")
-                .setX(
-                    arrayCharacter
-                        .find((element) => element.name == "Player")
-                        .getX() +
-                        arrayCharacter
-                            .find((element) => element.name == "Player")
-                            .getSpeed()
-                );
-        } else {
-            arrayCharacter
-                .find((element) => element.name == "Player")
-                .setX(mouse.getX());
-        }
-    } else if (
-        arrayCharacter.find((element) => element.name == "Player").getX() >
-        mouse.getX()
-    ) {
-        if (
-            arrayCharacter.find((element) => element.name == "Player").getX() -
-                arrayCharacter
-                    .find((element) => element.name == "Player")
-                    .getSpeed() >=
-            mouse.getX()
-        ) {
-            arrayCharacter
-                .find((element) => element.name == "Player")
-                .setX(
-                    arrayCharacter
-                        .find((element) => element.name == "Player")
-                        .getX() -
-                        arrayCharacter
-                            .find((element) => element.name == "Player")
-                            .getSpeed()
-                );
-        } else {
-            arrayCharacter
-                .find((element) => element.name == "Player")
-                .setX(mouse.getX());
-        }
-    }
-    if (
-        arrayCharacter.find((element) => element.name == "Player").getY() <
-        mouse.getY()
-    ) {
-        if (
-            arrayCharacter.find((element) => element.name == "Player").getY() +
-                arrayCharacter
-                    .find((element) => element.name == "Player")
-                    .getSpeed() <=
-            mouse.getY()
-        ) {
-            arrayCharacter
-                .find((element) => element.name == "Player")
-                .setY(
-                    arrayCharacter
-                        .find((element) => element.name == "Player")
-                        .getY() +
-                        arrayCharacter
-                            .find((element) => element.name == "Player")
-                            .getSpeed()
-                );
-        } else {
-            arrayCharacter
-                .find((element) => element.name == "Player")
-                .setY(mouse.getY());
-        }
-    } else if (
-        arrayCharacter.find((element) => element.name == "Player").getY() >
-        mouse.getY()
-    ) {
-        if (
-            arrayCharacter.find((element) => element.name == "Player").getY() -
-                arrayCharacter
-                    .find((element) => element.name == "Player")
-                    .getSpeed() >=
-            mouse.getY()
-        ) {
-            arrayCharacter
-                .find((element) => element.name == "Player")
-                .setY(
-                    arrayCharacter
-                        .find((element) => element.name == "Player")
-                        .getY() -
-                        arrayCharacter
-                            .find((element) => element.name == "Player")
-                            .getSpeed()
-                );
-        } else {
-            arrayCharacter
-                .find((element) => element.name == "Player")
-                .setY(mouse.getY());
-        }
-    }
-
-    // REVISAR XXX: Test nuevo sistema de colisiones
-    console.log(
-        "Player X: " +
-            arrayCharacter.find((element) => element.name == "Player").getX()
-    );
-    console.log(
-        "Player Y: " +
-            arrayCharacter.find((element) => element.name == "Player").getY()
-    );
-    console.log(
-        "Player X + W: " +
-            (arrayCharacter.find((element) => element.name == "Player").getX() +
-                arrayCharacter
-                    .find((element) => element.name == "Player")
-                    .getW())
-    );
-    console.log(
-        "Player Y + H: " +
-            (arrayCharacter.find((element) => element.name == "Player").getY() +
-                arrayCharacter
-                    .find((element) => element.name == "Player")
-                    .getH())
-    );
-    console.log(
-        "Framework ExtX: " +
-            arrayStructure
-                .find((element) => element.name == "Framework")
-                .getExtX()
-    );
-    console.log(
-        "Framework ExtY: " +
-            arrayStructure
-                .find((element) => element.name == "Framework")
-                .getExtY()
-    );
-    console.log(
-        "Framework ExtX + ExtW: " +
-            (arrayStructure
-                .find((element) => element.name == "Framework")
-                .getExtX() +
-                arrayStructure
-                    .find((element) => element.name == "Framework")
-                    .getExtW())
-    );
-    console.log(
-        "Framework ExtY + ExtH: " +
-            (arrayStructure
-                .find((element) => element.name == "Framework")
-                .getExtY() +
-                arrayStructure
-                    .find((element) => element.name == "Framework")
-                    .getExtH())
-    );
-    console.log(
-        "Framework IntX: " +
-            arrayStructure
-                .find((element) => element.name == "Framework")
-                .getIntX()
-    );
-    console.log(
-        "Framework IntY: " +
-            arrayStructure
-                .find((element) => element.name == "Framework")
-                .getIntY()
-    );
-    console.log(
-        "Framework IntX + IntW: " +
-            (arrayStructure
-                .find((element) => element.name == "Framework")
-                .getIntX() +
-                arrayStructure
-                    .find((element) => element.name == "Framework")
-                    .getIntW())
-    );
-    console.log(
-        "Framework IntY + IntH: " +
-            (arrayStructure
-                .find((element) => element.name == "Framework")
-                .getIntY() +
-                arrayStructure
-                    .find((element) => element.name == "Framework")
-                    .getIntH())
-    );
-    console.log("Collision: " + getCollisionCharacterStructure("Player"));
-
-    // Enemy
-    noStroke();
-    fill(0, 0, 255);
-    rect(
-        arrayCharacter.find((element) => element.name == "Enemy").getX(),
-        arrayCharacter.find((element) => element.name == "Enemy").getY(),
-        arrayCharacter.find((element) => element.name == "Enemy").getW(),
-        arrayCharacter.find((element) => element.name == "Enemy").getH()
-    );
-    if (
-        arrayCharacter.find((element) => element.name == "Enemy").getX() <
-        arrayStructure
-            .find((element) => element.name == "Framework")
-            .getIntX() +
-            arrayStructure
-                .find((element) => element.name == "Framework")
-                .getIntW()
-    ) {
-        arrayCharacter
-            .find((element) => element.name == "Enemy")
-            .setX(
-                arrayCharacter
-                    .find((element) => element.name == "Enemy")
-                    .getX() +
-                    arrayCharacter
-                        .find((element) => element.name == "Enemy")
-                        .getSpeed()
-            );
-    } else {
-        arrayCharacter
-            .find((element) => element.name == "Enemy")
-            .setX(
-                arrayStructure
-                    .find((element) => element.name == "Framework")
-                    .getIntX()
-            );
-        arrayCharacter
-            .find((element) => element.name == "Enemy")
-            .setY(
-                getRandomInt(
-                    arrayStructure
-                        .find((element) => element.name == "Framework")
-                        .getIntY(),
-                    arrayStructure
-                        .find((element) => element.name == "Framework")
-                        .getIntY() +
-                        arrayStructure
-                            .find((element) => element.name == "Framework")
-                            .getIntH()
-                )
-            );
-    }
-    */
+    // Iterate through the two-dimensional array `arrayWorld`.
+    arrayWorld.some((row, i) => {
+        return row.some((element, j) => {
+            // Enter the case of finding an element whose name matches with `Player`.
+            if (element.getName() === "Player") {
+                // Position the image on the screen according to the two-dimensional array `arrayWorld`.
+                image(imgPlayer, i * 10, j * 10, 10, 10);
+            } else {
+                // Fill the rest of the screen with the representation of nothing.
+                fill(0, 0, 255);
+                rect(i * 10, j * 10, 10, 10);
+            }
+        });
+    });
 }
 
 // The `randomNumber` function takes `minNumber` and `maxNumber` as parameters.

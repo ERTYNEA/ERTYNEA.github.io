@@ -1,7 +1,6 @@
 // Class Character
-class Character extends Square {
-    constructor(name, type, img, speed, x, y, w, h) {
-        super(x, y, w, h);
+class Character {
+    constructor(name, type, img, speed) {
         this.name = name;
         this.type = type;
         this.img = img;
