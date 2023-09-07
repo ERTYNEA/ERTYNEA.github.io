@@ -34,19 +34,18 @@ function preload() {
         arrayWorld[i] = new Array(resolutionH);
     }
 
-    // We initialize `nothingCharacter`, which represents the nothing.
+    // We initialize the object `nothingCharacter`, which represents the nothing.
     let nothingCharacter = new Character("Nothing", "World", "", 0);
 
-    // We fill the two-dimensional array `arrayWorld` so that it contains `nothingCharacter` in all its cells by default.
-    for (let i = 0; i < resolutionW; i++) {
-        for (let j = 0; j < resolutionH; j++) {
-            // We insert into the two-dimensional array `arrayWorld` the `nothingCharacter`.
-            // We will use the specified positions.
-            insertIntoTwoDimensionalArray(arrayWorld, nothingCharacter, i, j);
-        }
-    }
+    // Fill the two-dimensional array `arrayWorld` with the object `nothingCharacter`
+    arrayWorld = fillTwoDimensionalArrayWithObject(
+        arrayWorld,
+        resolutionW,
+        resolutionH,
+        nothingCharacter
+    );
 
-    // We initialize `playerCharacter`, which represents the player.
+    // We initialize the object `playerCharacter`, which represents the player.
     let playerCharacter = new Character("Player", "Human", "/img/Human.png", 1);
 
     // We initialize a pair of temporary numeric variables `tempPosition`.
@@ -135,6 +134,26 @@ function draw() {
     });
 }
 
+// The function `fillTwoDimensionalArrayWithObject` takes parameters `twoDimensionalArray`, `rowsArray`, `columnsArray`, and `objectToInsert`.
+// It returns the two-dimensional array `twoDimensionalArray` with all its positions (rows and columns) filled with the object `objectToInsert`.
+function fillTwoDimensionalArrayWithObject(
+    twoDimensionalArray,
+    rowsArray,
+    columnsArray,
+    objectToInsert
+) {
+    // Iterate through the two-dimensional array `twoDimensionalArray` (rows and columns).
+    for (let i = 0; i < rowsArray; i++) {
+        for (let j = 0; j < columnsArray; j++) {
+            // We insert into the two-dimensional array `twoDimensionalArray` the object `objectToInsert`.
+            twoDimensionalArray[i][j] = objectToInsert;
+        }
+    }
+
+    // Return the value stored in the temporary variable `parameterValue`.
+    return twoDimensionalArray;
+}
+
 // The `randomNumber` function takes `minNumber` and `maxNumber` as parameters.
 // It returns a random number between `minNumber` and `maxNumber` (both inclusive).
 function randomNumber(minNumber, maxNumber) {
@@ -171,7 +190,7 @@ function extractObjectParameterFromTwoDimensionalArray(
     // This is where we will temporarily store the value of the parameter (what we want to extract).
     let parameterValue = null;
 
-    // Iterate through the two-dimensional array (rows and columns).
+    // Iterate through the two-dimensional array `twoDimensionalArray` (rows and columns).
     twoDimensionalArray.some((row) => {
         return row.some((element) => {
             // Enter the case of finding an element whose name matches the searched object's name.
