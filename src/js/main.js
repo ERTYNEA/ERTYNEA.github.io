@@ -9,8 +9,8 @@ var activateDebugger = true;
 var arrayWorld = [];
 
 // The numbers `resolution` indicate the scale that the game world will have.
-var resolutionW = 80;
-var resolutionH = 50;
+var resolutionW = 40;
+var resolutionH = 40;
 
 // The `Img` objects are where we will store the images
 var imgPlayer;
@@ -123,12 +123,27 @@ function draw() {
         return row.some((element, j) => {
             // Enter the case of finding an element whose name matches with `Player`.
             if (element.getName() === "Player") {
-                // Position the image on the screen according to the two-dimensional array `arrayWorld`.
-                image(imgPlayer, i * 10, j * 10, 10, 10);
+                // Paint on the screen the representation of the current treated element.
+                // The position of the image is calculated as the difference between the screen dimension and the resolution, multiplied by its position in the two-dimensional array `arrayWorld`.
+                // The dimension of the image is calculated as the difference between the screen dimension and the resolution.
+                image(
+                    imgPlayer,
+                    (space.getW() / resolutionW) * i,
+                    (space.getH() / resolutionH) * j,
+                    space.getW() / resolutionW,
+                    space.getH() / resolutionH
+                );
             } else {
-                // Fill the rest of the screen with the representation of nothing.
-                fill(0, 0, 255);
-                rect(i * 10, j * 10, 10, 10);
+                // Paint on the screen the representation of nothing.
+                // The position of nothing is calculated as the difference between the screen dimension and the resolution, multiplied by its position in the two-dimensional array `arrayWorld`.
+                // The dimension of nothing is calculated as the difference between the screen dimension and the resolution.
+                fill(0, 0, 0);
+                rect(
+                    (space.getW() / resolutionW) * i,
+                    (space.getH() / resolutionH) * j,
+                    space.getW() / resolutionW,
+                    space.getH() / resolutionH
+                );
             }
         });
     });
