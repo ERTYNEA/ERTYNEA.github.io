@@ -79,13 +79,13 @@ function preload() {
     consoleDebugger(activateDebugger, arrayWorld);
 
     // We initialize the `arrayPath` object.
-    arrayPath = new ArrayPath([]);
+    arrayPath = new ArrayKeyValue([]);
 
     // We save the image resource paths in the `arrayPath` object.
-    arrayPath.setKeyValueArrayPath("imgPlayerPath", PATH_IMG_PLAYER);
+    arrayPath.setKeyValueArrayKeyValue("imgPlayerPath", PATH_IMG_PLAYER);
 
     // We retrieve the image resource paths from the `arrayPath` object.
-    imgPlayerPath = arrayPath.getValueArrayPath("imgPlayerPath");
+    imgPlayerPath = arrayPath.getValueArrayKeyValue("imgPlayerPath");
 
     // We use `consoleDebugger` to display the image resource paths.
     consoleDebugger(activateDebugger, "imgPlayerPath: " + imgPlayerPath);
