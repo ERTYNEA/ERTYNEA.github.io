@@ -1,9 +1,8 @@
 // Class Character
 class Character {
-    constructor(name, type, img, speed) {
+    constructor(name, type, speed) {
         this.name = name;
         this.type = type;
-        this.img = img;
         this.speed = speed;
     }
 
@@ -21,14 +20,6 @@ class Character {
 
     setType(type) {
         this.type = type;
-    }
-
-    getImg() {
-        return this.img;
-    }
-
-    setImg(img) {
-        this.img = img;
     }
 
     getSpeed() {

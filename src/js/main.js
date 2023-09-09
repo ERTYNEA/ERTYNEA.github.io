@@ -12,6 +12,9 @@ var arrayWorld = [];
 var resolutionW = 40;
 var resolutionH = 40;
 
+// The object `arrayPath` will contain an association to all the game resources.
+var arrayPath;
+
 // The `Img` objects are where we will store the images
 var imgPlayer;
 
@@ -35,7 +38,7 @@ function preload() {
     }
 
     // We initialize the object `nothingCharacter`, which represents the nothing.
-    let nothingCharacter = new Character("Nothing", "World", "", 0);
+    let nothingCharacter = new Character("Nothing", "World", 0);
 
     // Fill the two-dimensional array `arrayWorld` with the object `nothingCharacter`
     arrayWorld = fillTwoDimensionalArrayWithObject(
@@ -46,7 +49,7 @@ function preload() {
     );
 
     // We initialize the object `playerCharacter`, which represents the player.
-    let playerCharacter = new Character("Player", "Human", "/img/Human.png", 1);
+    let playerCharacter = new Character("Player", "Human", 1);
 
     // We initialize a pair of temporary numeric variables `tempPosition`.
     // We will use the `randomNumber` function for this, which will receive 0 and the `resolution` (- 1) numbers as parameters.
@@ -75,20 +78,19 @@ function preload() {
     // We will use the `consoleDebugger` function to display the values of the two-dimensional array `arrayWorld`
     consoleDebugger(activateDebugger, arrayWorld);
 
-    // We initialize `imgPlayerPath` with the path extracted from the `Player` object in the two-dimensional array `arrayWorld`.
-    let imgPlayerPath = extractObjectParameterFromTwoDimensionalArray(
-        "Player",
-        "img",
-        arrayWorld
-    );
+    // We initialize the `arrayPath` object.
+    arrayPath = new ArrayPath([]);
 
-    // We will use the `consoleDebugger` function to display the values of the string `imgPlayerPath`.
-    consoleDebugger(
-        activateDebugger,
-        "imgPlayerPath in Player: " + imgPlayerPath
-    );
+    // We save the image resource paths in the `arrayPath` object.
+    arrayPath.setKeyValueArrayPath("imgPlayerPath", PATH_IMG_PLAYER);
 
-    // We load the `img`.
+    // We retrieve the image resource paths from the `arrayPath` object.
+    imgPlayerPath = arrayPath.getValueArrayPath("imgPlayerPath");
+
+    // We use `consoleDebugger` to display the image resource paths.
+    consoleDebugger(activateDebugger, "imgPlayerPath: " + imgPlayerPath);
+
+    // We load all the image resources.
     imgPlayer = loadImage(imgPlayerPath);
 }
 
