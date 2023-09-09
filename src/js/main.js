@@ -5,7 +5,7 @@
 // The boolean `activateDebugger` indicates whether messages intended for debugging should be written to the console.
 var activateDebugger = true;
 
-// The two-dimensional array `arrayWorld` is a representation of the game world; All its elements will be displayed on the screen.
+// The object `arrayWorld` is a representation of the game world; All its elements will be displayed on the screen.
 var arrayWorld = [];
 
 // The numbers `resolution` indicate the scale that the game world will have.
@@ -31,18 +31,14 @@ var canvas;
 // The `preload` function is used to load resources before the rest of the code runs.
 // This function is automatically executed once before the `setup` function runs.
 function preload() {
-    // We initialize the two-dimensional array `arrayWorld` to contain the game world and represent it on the screen later.
-    arrayWorld = new Array(resolutionW);
-    for (let i = 0; i < arrayWorld.length; i++) {
-        arrayWorld[i] = new Array(resolutionH);
-    }
+    // We initialize the `arrayWorld` object.
+    arrayWorld = new ArrayTwoDimensional(resolutionW, resolutionH);
 
     // We initialize the object `nothingCharacter`, which represents the nothing.
     let nothingCharacter = new Character("Nothing", "World", 0);
 
-    // Fill the two-dimensional array `arrayWorld` with the object `nothingCharacter`
-    arrayWorld = fillTwoDimensionalArrayWithObject(
-        arrayWorld,
+    // Fill the object `arrayWorld` with the object `nothingCharacter`
+    arrayWorld.fillArrayTwoDimensionalWithObject(
         resolutionW,
         resolutionH,
         nothingCharacter
@@ -66,20 +62,19 @@ function preload() {
         "tempPositionY for Player: " + tempPositionY
     );
 
-    // We insert into the two-dimensional array `arrayWorld` the `playerCharacter`.
+    // We insert into the object `arrayWorld` the `playerCharacter`.
     // We will use the specified `tempPositionX` and `tempPositionY` positions.
-    insertIntoTwoDimensionalArray(
-        arrayWorld,
+    arrayWorld.insertObjectIntoArrayTwoDimensional(
         playerCharacter,
         tempPositionX,
         tempPositionY
     );
 
-    // We will use the `consoleDebugger` function to display the values of the two-dimensional array `arrayWorld`
-    consoleDebugger(activateDebugger, arrayWorld);
+    // We will use the `consoleDebugger` function to display the values of the object `arrayWorld`
+    consoleDebugger(activateDebugger, arrayWorld.getArrayTwoDimensional());
 
     // We initialize the `arrayPath` object.
-    arrayPath = new ArrayKeyValue([]);
+    arrayPath = new ArrayKeyValue();
 
     // We save the image resource paths in the `arrayPath` object.
     arrayPath.setKeyValueArrayKeyValue("imgPlayerPath", PATH_IMG_PLAYER);
@@ -120,8 +115,8 @@ function draw() {
     // We use the `noStroke` function call to disable outline strokes when drawing shapes on the game canvas.
     noStroke();
 
-    // Iterate through the two-dimensional array `arrayWorld`.
-    arrayWorld.some((row, i) => {
+    // Iterate through the object `arrayWorld`.
+    arrayWorld.getArrayTwoDimensional().some((row, i) => {
         return row.some((element, j) => {
             // Enter the case of finding an element whose name matches with `Player`.
             if (element.getName() === "Player") {
@@ -151,26 +146,6 @@ function draw() {
     });
 }
 
-// The function `fillTwoDimensionalArrayWithObject` takes parameters `twoDimensionalArray`, `rowsArray`, `columnsArray`, and `objectToInsert`.
-// It returns the two-dimensional array `twoDimensionalArray` with all its positions (rows and columns) filled with the object `objectToInsert`.
-function fillTwoDimensionalArrayWithObject(
-    twoDimensionalArray,
-    rowsArray,
-    columnsArray,
-    objectToInsert
-) {
-    // Iterate through the two-dimensional array `twoDimensionalArray` (rows and columns).
-    for (let i = 0; i < rowsArray; i++) {
-        for (let j = 0; j < columnsArray; j++) {
-            // We insert into the two-dimensional array `twoDimensionalArray` the object `objectToInsert`.
-            twoDimensionalArray[i][j] = objectToInsert;
-        }
-    }
-
-    // Return the value stored in the temporary variable `parameterValue`.
-    return twoDimensionalArray;
-}
-
 // The `randomNumber` function takes `minNumber` and `maxNumber` as parameters.
 // It returns a random number between `minNumber` and `maxNumber` (both inclusive).
 function randomNumber(minNumber, maxNumber) {
@@ -183,46 +158,4 @@ function consoleDebugger(activateDebugger, stringDebugger) {
     if (activateDebugger) {
         console.log(stringDebugger);
     }
-}
-
-// The `insertIntoTwoDimensionalArray` function receives parameters `twoDimensionalArray`, `objectToInsert`, `positionX`, and `positionY`.
-// It inserts the object into the two-dimensional array at the specified x and y positions.
-function insertIntoTwoDimensionalArray(
-    twoDimensionalArray,
-    objectToInsert,
-    positionX,
-    positionY
-) {
-    twoDimensionalArray[positionX][positionY] = objectToInsert;
-}
-
-// The function `extractObjectParameterFromTwoDimensionalArray` receives parameters `objectNameToExtract`, `objectParameterToExtract` and `twoDimensionalArray`.
-// This function extracts the value `parameterValue` of the parameter from the object (specified by name) in the two-dimensional array.
-function extractObjectParameterFromTwoDimensionalArray(
-    objectNameToExtract,
-    objectParameterToExtract,
-    twoDimensionalArray
-) {
-    // Initialize the temporary variable `parameterValue` to null.
-    // This is where we will temporarily store the value of the parameter (what we want to extract).
-    let parameterValue = null;
-
-    // Iterate through the two-dimensional array `twoDimensionalArray` (rows and columns).
-    twoDimensionalArray.some((row) => {
-        return row.some((element) => {
-            // Enter the case of finding an element whose name matches the searched object's name.
-            if (element.getName() === objectNameToExtract) {
-                // Store the value of the parameter from the element in the temporary variable `parameterValue`.
-                parameterValue = element[objectParameterToExtract];
-                // End the current iteration.
-                return true;
-            }
-
-            // If nothing is found, end the current iteration.
-            return false;
-        });
-    });
-
-    // Return the value stored in the temporary variable `parameterValue`.
-    return parameterValue;
 }
