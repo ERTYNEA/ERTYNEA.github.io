@@ -9,8 +9,8 @@ var activateDebugger = true;
 var arrayWorld = [];
 
 // The numbers `resolution` indicate the scale that the game world will have.
-var resolutionW = 40;
-var resolutionH = 40;
+var resolutionW = 20;
+var resolutionH = 20;
 
 // The object `arrayPath` will contain an association to all the game resources.
 var arrayPath;
