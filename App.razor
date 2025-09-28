@@ -1,15 +1,19 @@
-﻿namespace NewAndRetroPong;
+﻿@* Application root component - Router configuration *@
 
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Routing;
-using NewAndRetroPong.Layout;
+@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Components.Routing;
+@using NewAndRetroPong.Layout;
+
+@namespace NewAndRetroPong
 
 <Router AppAssembly="@typeof(App).Assembly">
 	<Found Context="routeData">
+		@* Page found - use MainLayout by default *@
 		<RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
 		<FocusOnNavigate RouteData="@routeData" Selector="h1" />
 	</Found>
 	<NotFound>
+		@* Page not found - show error message *@
 		<PageTitle>Not found</PageTitle>
 		<LayoutView Layout="@typeof(MainLayout)">
 			<p role="alert">Sorry, there's nothing at this address.</p>

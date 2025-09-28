@@ -51,26 +51,32 @@ Since `ERTYNEA.github.io` is your **personal GitHub Pages repository**:
 
 ### Game Ready for Deployment
 
-**NewAndRetroPong v0.1.3** includes:
-- Complete and functional Pong game
-- Mouse control (horizontal and vertical)
-- Intelligent opponent AI
-- Full-screen responsive design
-- 60 FPS fluid gameplay
+**NewAndRetroPong v0.1.4** includes:
+- Complete and functional Pong game with responsive elements
+- Mouse control (horizontal and vertical) with automatic scaling
+- Intelligent opponent AI with responsive movement
+- Full-screen responsive design with mobile aspect ratio
+- 60 FPS fluid gameplay with scaled elements
+- Enhanced visual design with white side borders
+- Bright white field lines for better visibility
 - Refactored architecture (GameLogic, Ball, Paddle separated)
+- Complete English documentation and comments
 
 ### Optimized Files
 
-- **Blazor WebAssembly .NET 9** compiled
+- **Blazor WebAssembly .NET 9** compiled and optimized
 - **Compressed assets** (.br, .gz)
-- **Integrated JavaScript** for canvas and controls
-- **Optimized CSS** for full-screen gaming
+- **Integrated JavaScript** for canvas and responsive controls
+- **Optimized CSS** for full-screen gaming with responsive design
+- **Automatic scaling system** for cross-platform compatibility
 
 ### Final Checklist
 
-- `docs/.nojekyll` created
-- `docs/index.html` with `<base href="/" />`
-- Assets and framework in correct location  
-- Specific configuration for `ERTYNEA.github.io`
+- ? `docs/.nojekyll` created
+- ? `docs/index.html` with `<base href="/" />`
+- ? Assets and framework in correct location  
+- ? Specific configuration for `ERTYNEA.github.io`
+- ? Version 0.1.4 with responsive features
+- ? Complete English documentation
 
 **All ready!** Just activate GitHub Pages in your repository and your game will be online at https://ERTYNEA.github.io/

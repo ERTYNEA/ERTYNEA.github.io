@@ -13,25 +13,29 @@ A modern, full-screen **Pong game** built with **.NET 9** and **Blazor WebAssemb
 
 ## Features
 
-### **Core Gameplay**
+### **Core Gameplay - Version 0.1.4**
 - **Full-screen immersive experience** - Clean, distraction-free gaming
 - **Smooth 60 FPS gameplay** - Buttery smooth animations and physics
 - **Mouse control system** - Intuitive horizontal and vertical paddle movement
 - **Intelligent AI opponent** - Smart ball-following algorithm
 - **Real-time scoring** - Live score tracking with visual feedback
 - **Auto-restart mechanism** - Seamless transitions after scoring
+- **Responsive game elements** - Paddles and ball scale automatically to screen size
 
 ### **Visual Design**
 - **Modern minimalist UI** - Clean interface with version display
-- **Responsive design** - Perfect experience on desktop, tablet, and mobile
+- **Mobile aspect ratio** - Optimized 9:16 portrait orientation
 - **Professional styling** - Gradient backgrounds and smooth animations
 - **Canvas-based graphics** - High-performance rendering with fallback sprites
+- **White side borders** - Clean 5px borders framing the game area
+- **Enhanced field lines** - Bright white lines for better visibility
 
 ### **Technical Excellence**
 - **Blazor WebAssembly** - Runs entirely in the browser
 - **Clean architecture** - Separated concerns with Core game logic
-- **Optimized performance** - AOT compilation and compressed assets
+- **Fully responsive design** - Elements scale based on screen size
 - **Cross-platform compatibility** - Works on any modern browser
+- **Optimized performance** - AOT compilation and compressed assets
 
 ---
 
@@ -53,7 +57,7 @@ NewAndRetroPong/
 ??? Game/
 ?   ??? Game.razor              # Main UI Component
 ?   ??? Core/                   # Game Logic Layer
-?       ??? GameLogic.cs        # Game Engine
+?       ??? GameLogic.cs        # Game Engine with Responsive System
 ?       ??? Ball.cs             # Ball Entity
 ?       ??? Paddle.cs           # Paddle Entity
 ??? Layout/
@@ -61,7 +65,7 @@ NewAndRetroPong/
 ??? wwwroot/
     ??? css/game.css            # Game Styling
     ??? assets/images/          # Game Assets
-    ??? index.html              # Entry Point
+    ??? index.html              # Entry Point with Canvas Logic
 ```
 
 ### **Technology Stack**
@@ -108,6 +112,12 @@ dotnet publish -c Release -o docs
 
 ## Game Mechanics
 
+### **Responsive System - New in 0.1.4**
+- **Automatic scaling**: All game elements scale based on screen size
+- **Base configuration**: Optimized for 400x600 canvas
+- **Scale factor**: Maintains proportions across all devices
+- **Performance optimized**: Minimum speeds ensure smooth gameplay
+
 ### **Player Controls**
 - **Mouse Movement**: Controls paddle position in real-time
 - **Movement Area**: Bottom third of the game area
@@ -128,16 +138,16 @@ dotnet publish -c Release -o docs
 ## Development Features
 
 ### **Code Quality**
-- **Namespace-first convention** - Consistent code organization
-- **Single Responsibility Principle** - Clean class separation
-- **Tab indentation** - Consistent formatting
+- **English-first comments** - All documentation in English
+- **Clean architecture** - Separated game logic and presentation
 - **Modern C# features** - Leverages C# 13.0 capabilities
+- **Comprehensive documentation** - Well-documented codebase
 
 ### **Performance Optimizations**
-- **AOT Compilation** - Faster startup and execution
-- **Asset Compression** - Brotli and Gzip compression
-- **Lazy Loading** - Optimized resource loading
-- **Memory Management** - Proper disposal patterns
+- **Responsive scaling system** - Efficient element sizing
+- **60 FPS game loop** - Consistent 16ms frame timing
+- **Memory management** - Proper disposal patterns
+- **Optimized rendering** - Canvas-based graphics
 
 ---
 
@@ -146,7 +156,7 @@ dotnet publish -c Release -o docs
 | Platform | Support | Notes |
 |----------|---------|-------|
 | **Desktop** | Full | Optimal experience with mouse control |
-| **Mobile** | Full | Touch-responsive design |
+| **Mobile** | Full | Touch-responsive design with scaling |
 | **Tablet** | Full | Perfect for touch gameplay |
 | **Web** | Full | No installation required |
 
@@ -160,6 +170,12 @@ dotnet publish -c Release -o docs
 - **Memory Usage**: Optimized WebAssembly footprint
 - **Bundle Size**: Compressed for fast delivery
 
+### **Responsive Design**
+- **Mobile aspect ratio**: 9:16 portrait orientation
+- **Automatic scaling**: Elements scale to screen size
+- **White side borders**: 5px borders frame the game
+- **Enhanced visibility**: Bright white field lines
+
 ### **Browser Compatibility**
 - Chrome/Edge (Chromium) 90+
 - Firefox 88+
@@ -171,7 +187,7 @@ dotnet publish -c Release -o docs
 ## Screenshots
 
 ### Game in Action
-*Experience smooth, full-screen Pong gameplay with modern UI design*
+*Experience smooth, full-screen Pong gameplay with modern UI design and responsive scaling*
 
 ### Key Features
 - **Immersive full-screen mode**
@@ -179,6 +195,7 @@ dotnet publish -c Release -o docs
 - **Intuitive mouse controls**
 - **Smart AI opponent**
 - **Mobile-responsive design**
+- **Automatic element scaling**
 
 ---
 
@@ -199,7 +216,14 @@ This project is configured for **GitHub Pages** deployment:
 
 ## Version History
 
-### **v0.1.3** (Current)
+### **v0.1.4** (Current)
+- **Responsive game elements** - Paddles and ball scale automatically
+- **Enhanced borders** - Clean 5px white side borders
+- **Improved field lines** - Bright white lines for better visibility
+- **Mobile aspect ratio** - Optimized 9:16 portrait orientation
+- **English documentation** - All comments translated to English
+
+### **v0.1.3**
 - Full-screen immersive gameplay
 - Refactored architecture with separated classes
 - GitHub Pages deployment ready
@@ -214,6 +238,7 @@ Contributions are welcome! This project serves as an excellent example of:
 - Modern .NET 9 and Blazor WebAssembly development
 - Clean architecture principles
 - Game development with web technologies
+- Responsive design implementation
 - GitHub Pages deployment strategies
 
 ---
@@ -233,6 +258,7 @@ This project is open source and available for educational and personal use.
 - Understanding game development concepts
 - Exploring Blazor WebAssembly capabilities
 - Studying responsive web design
+- Implementing scaling systems in games
 
 ---
 

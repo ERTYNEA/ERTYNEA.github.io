@@ -4,6 +4,7 @@ using System;
 
 public class GameLogic
 {
+	// Canvas dimensions
 	public int CanvasWidth { get; private set; }
 	public int CanvasHeight { get; private set; }
 	
@@ -18,14 +19,26 @@ public class GameLogic
 	public bool IsBallPaused { get; private set; } = true;
 	public int PlayerScore { get; private set; }
 	public int OpponentScore { get; private set; }
-	public string Version { get; private set; } = "0.1.3";
+	public string Version { get; private set; } = "0.1.4";
 	
-	// Game configuration
-	private const int PADDLE_WIDTH = 70;
-	private const int PADDLE_HEIGHT = 10;
-	private const int BALL_SIZE = 20;
-	private const int PADDLE_SPEED = 4;
-	private const int BALL_SPEED = 5;
+	// Base configuration for 400x600 canvas (used as reference for scaling)
+	private const int BASE_CANVAS_WIDTH = 400;
+	private const int BASE_CANVAS_HEIGHT = 600;
+	private const int BASE_PADDLE_WIDTH = 70;
+	private const int BASE_PADDLE_HEIGHT = 10;
+	private const int BASE_BALL_SIZE = 20;
+	private const int BASE_PADDLE_SPEED = 4;
+	private const int BASE_BALL_SPEED = 5;
+	
+	// Responsive configuration - automatically calculated based on canvas size
+	private int ResponsivePaddleWidth => (int)(BASE_PADDLE_WIDTH * ScaleFactor);
+	private int ResponsivePaddleHeight => (int)(BASE_PADDLE_HEIGHT * ScaleFactor);
+	private int ResponsiveBallSize => (int)(BASE_BALL_SIZE * ScaleFactor);
+	private int ResponsivePaddleSpeed => Math.Max(1, (int)(BASE_PADDLE_SPEED * ScaleFactor));
+	private int ResponsiveBallSpeed => Math.Max(1, (int)(BASE_BALL_SPEED * ScaleFactor));
+	
+	// Scale factor based on ratio between current canvas and base canvas
+	private float ScaleFactor => Math.Min((float)CanvasWidth / BASE_CANVAS_WIDTH, (float)CanvasHeight / BASE_CANVAS_HEIGHT);
 	
 	// Mouse tracking
 	public float MouseX { get; private set; }
@@ -38,36 +51,40 @@ public class GameLogic
 	
 	public void InitializeGame()
 	{
-		CanvasWidth = 400;
-		CanvasHeight = 600;
+		CanvasWidth = BASE_CANVAS_WIDTH;
+		CanvasHeight = BASE_CANVAS_HEIGHT;
 		
+		// Initialize ball at center
 		Ball = new Ball
 		{
 			X = CanvasWidth / 2.0f,
 			Y = CanvasHeight / 2.0f,
 			VelocityX = 0,
 			VelocityY = 0,
-			Size = BALL_SIZE
+			Size = ResponsiveBallSize
 		};
 		
+		// Player paddle (bottom third)
 		PlayerPaddle = new Paddle
 		{
-			X = (CanvasWidth - PADDLE_WIDTH) / 2,
-			Y = CanvasHeight - CanvasHeight / 3 + (CanvasHeight / 3 - PADDLE_HEIGHT) / 2,
-			Width = PADDLE_WIDTH,
-			Height = PADDLE_HEIGHT,
-			Speed = PADDLE_SPEED
+			X = (CanvasWidth - ResponsivePaddleWidth) / 2,
+			Y = CanvasHeight - CanvasHeight / 3 + (CanvasHeight / 3 - ResponsivePaddleHeight) / 2,
+			Width = ResponsivePaddleWidth,
+			Height = ResponsivePaddleHeight,
+			Speed = ResponsivePaddleSpeed
 		};
 		
+		// Opponent paddle (top third)
 		OpponentPaddle = new Paddle
 		{
-			X = (CanvasWidth - PADDLE_WIDTH) / 2,
-			Y = CanvasHeight / 3 / 2 - PADDLE_HEIGHT / 2,
-			Width = PADDLE_WIDTH,
-			Height = PADDLE_HEIGHT,
-			Speed = PADDLE_SPEED
+			X = (CanvasWidth - ResponsivePaddleWidth) / 2,
+			Y = CanvasHeight / 3 / 2 - ResponsivePaddleHeight / 2,
+			Width = ResponsivePaddleWidth,
+			Height = ResponsivePaddleHeight,
+			Speed = ResponsivePaddleSpeed
 		};
 		
+		// Reset scores only on first initialization
 		if (!IsGameStarted)
 		{
 			PlayerScore = 0;
@@ -86,16 +103,27 @@ public class GameLogic
 		CanvasWidth = width;
 		CanvasHeight = height;
 		
+		// Update element sizes based on new canvas size
+		Ball.Size = ResponsiveBallSize;
+		PlayerPaddle.Width = ResponsivePaddleWidth;
+		PlayerPaddle.Height = ResponsivePaddleHeight;
+		PlayerPaddle.Speed = ResponsivePaddleSpeed;
+		OpponentPaddle.Width = ResponsivePaddleWidth;
+		OpponentPaddle.Height = ResponsivePaddleHeight;
+		OpponentPaddle.Speed = ResponsivePaddleSpeed;
+		
+		// Reposition elements if game hasn't started
 		if (!IsGameStarted)
 		{
 			Ball.X = width / 2.0f;
 			Ball.Y = height / 2.0f;
-			PlayerPaddle.X = (width - PADDLE_WIDTH) / 2;
-			OpponentPaddle.X = (width - PADDLE_WIDTH) / 2;
+			PlayerPaddle.X = (width - ResponsivePaddleWidth) / 2;
+			OpponentPaddle.X = (width - ResponsivePaddleWidth) / 2;
 		}
 		
-		PlayerPaddle.Y = height - height / 3 + (height / 3 - PADDLE_HEIGHT) / 2;
-		OpponentPaddle.Y = height / 3 / 2 - PADDLE_HEIGHT / 2;
+		// Adjust paddle Y positions (always adjusted)
+		PlayerPaddle.Y = height - height / 3 + (height / 3 - ResponsivePaddleHeight) / 2;
+		OpponentPaddle.Y = height / 3 / 2 - ResponsivePaddleHeight / 2;
 		
 		if (MouseX == 0) MouseX = width / 2.0f;
 		if (MouseY == 0) MouseY = height * 2.0f / 3.0f;
@@ -107,10 +135,11 @@ public class GameLogic
 		IsGameStarted = true;
 		IsBallPaused = false;
 		
+		// Generate random angle for ball
 		Random random = new Random();
 		float angle = (random.NextSingle() - 0.5f) * (float)Math.PI / 4;
-		Ball.VelocityX = BALL_SPEED * (float)Math.Sin(angle);
-		Ball.VelocityY = BALL_SPEED * (float)Math.Cos(angle) * (random.Next(2) == 0 ? 1 : -1);
+		Ball.VelocityX = ResponsiveBallSpeed * (float)Math.Sin(angle);
+		Ball.VelocityY = ResponsiveBallSpeed * (float)Math.Cos(angle) * (random.Next(2) == 0 ? 1 : -1);
 	}
 	
 	public void ResetGameForNextPoint()
@@ -142,13 +171,15 @@ public class GameLogic
 	
 	private void UpdatePlayerPaddlePosition()
 	{
-		int newX = (int)(MouseX - PADDLE_WIDTH / 2);
-		PlayerPaddle.X = Math.Max(0, Math.Min(CanvasWidth - PADDLE_WIDTH, newX));
+		// Center paddle on mouse X position
+		int newX = (int)(MouseX - ResponsivePaddleWidth / 2);
+		PlayerPaddle.X = Math.Max(0, Math.Min(CanvasWidth - ResponsivePaddleWidth, newX));
 		
+		// Restrict Y movement to bottom third
 		int bottomThirdStart = CanvasHeight * 2 / 3;
 		int bottomThirdEnd = CanvasHeight;
-		int newY = (int)(MouseY - PADDLE_HEIGHT / 2);
-		PlayerPaddle.Y = Math.Max(bottomThirdStart, Math.Min(bottomThirdEnd - PADDLE_HEIGHT, newY));
+		int newY = (int)(MouseY - ResponsivePaddleHeight / 2);
+		PlayerPaddle.Y = Math.Max(bottomThirdStart, Math.Min(bottomThirdEnd - ResponsivePaddleHeight, newY));
 	}
 	
 	public void UpdateGame()
@@ -157,6 +188,7 @@ public class GameLogic
 		
 		if (!IsGameRunning) return;
 		
+		// Update ball position
 		Ball.X += Ball.VelocityX;
 		Ball.Y += Ball.VelocityY;
 		
@@ -175,6 +207,7 @@ public class GameLogic
 			Ball.VelocityY > 0)
 		{
 			Ball.VelocityY = -Math.Abs(Ball.VelocityY);
+			// Angle effect based on where it hits the paddle
 			float hitPos = (Ball.X - (PlayerPaddle.X + PlayerPaddle.Width / 2)) / (PlayerPaddle.Width / 2);
 			Ball.VelocityX += hitPos * 1.5f;
 			Ball.Y = PlayerPaddle.Y - Ball.Size / 2;
@@ -188,12 +221,13 @@ public class GameLogic
 			Ball.VelocityY < 0)
 		{
 			Ball.VelocityY = Math.Abs(Ball.VelocityY);
+			// Angle effect based on where it hits the paddle
 			float hitPos = (Ball.X - (OpponentPaddle.X + OpponentPaddle.Width / 2)) / (OpponentPaddle.Width / 2);
 			Ball.VelocityX += hitPos * 1.5f;
 			Ball.Y = OpponentPaddle.Y + OpponentPaddle.Height + Ball.Size / 2;
 		}
 		
-		// Scoring
+		// Scoring system
 		if (Ball.Y < -Ball.Size)
 		{
 			PlayerScore++;
@@ -210,10 +244,12 @@ public class GameLogic
 	{
 		if (!IsGameStarted) return;
 		
+		// Simple AI: follow the ball
 		float targetX = Ball.X - OpponentPaddle.Width / 2;
 		float currentX = OpponentPaddle.X;
 		float distance = targetX - currentX;
 		
+		// Move towards ball if distance is significant
 		if (Math.Abs(distance) > 2)
 		{
 			if (distance > 0)

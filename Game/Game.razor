@@ -1,3 +1,4 @@
+@* NewAndRetroPong main game component *@
 @namespace NewAndRetroPong.Game
 
 @using System
@@ -12,9 +13,12 @@
 
 <PageTitle>NewAndRetroPong</PageTitle>
 
+@* Game HTML structure *@
 <div class="game-fullscreen">
+	@* Game version - top left corner *@
 	<div class="game-version">v@(gameLogic.Version)</div>
 	
+	@* Score - top right corner *@
 	<div class="game-header">
 		<div class="game-score">
 			<span class="opponent-score">@gameLogic.OpponentScore</span>
@@ -23,6 +27,7 @@
 		</div>
 	</div>
 	
+	@* Game canvas with interaction events *@
 	<div class="canvas-fullscreen-container">
 		<canvas @ref="canvasRef" 
 				id="gameCanvas" 
@@ -36,26 +41,31 @@
 </div>
 
 @code {
+	// Game references and objects
 	private ElementReference canvasRef;
 	private GameLogic gameLogic = new();
 	private DotNetObjectReference<Game>? dotNetReference;
 	private System.Timers.Timer? gameTimer;
 
+	// Game initialization after first render
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (firstRender)
 		{
+			// Configure JavaScript-C# interaction
 			dotNetReference = DotNetObjectReference.Create(this);
 			await JSRuntime.InvokeVoidAsync("initializeGameCanvas", canvasRef, dotNetReference);
 			await JSRuntime.InvokeVoidAsync("focusCanvas", canvasRef);
 			await RenderGame();
 			
+			// Configure game loop at 60 FPS (16ms)
 			gameTimer = new System.Timers.Timer(16);
 			gameTimer.Elapsed += async (sender, e) => await GameLoop();
 			gameTimer.Start();
 		}
 	}
 
+	// Main game loop - runs every 16ms
 	private async Task GameLoop()
 	{
 		gameLogic.UpdateGame();
@@ -63,7 +73,8 @@
 		await InvokeAsync(StateHasChanged);
 	}
 
-	private async Task StartGameOnClick()
+	// Handle canvas click to start game
+	private void StartGameOnClick()
 	{
 		if (gameLogic.CanStartGame())
 		{
@@ -72,12 +83,14 @@
 		}
 	}
 
+	// Handle mouse movement (called from JavaScript)
 	[JSInvokable]
 	public async Task HandleMouseMove(double clientX, double clientY)
 	{
 		var canvasRect = await JSRuntime.InvokeAsync<double[]>("getCanvasRect");
 		if (canvasRect.Length >= 4)
 		{
+			// Calculate scale to convert DOM coordinates to canvas coordinates
 			float scaleX = gameLogic.CanvasWidth / (float)canvasRect[2];
 			float scaleY = gameLogic.CanvasHeight / (float)canvasRect[3];
 			
@@ -89,21 +102,25 @@
 		}
 	}
 
+	// Overload for Blazor mouse events
 	private async Task HandleMouseMove(MouseEventArgs e)
 	{
 		await HandleMouseMove(e.ClientX, e.ClientY);
 	}
 
+	// Render all game elements on canvas
 	private async Task RenderGame()
 	{
 		try
 		{
+			// Get current canvas dimensions
 			var dimensions = await JSRuntime.InvokeAsync<int[]>("getCanvasSize");
 			if (dimensions.Length >= 2)
 			{
 				gameLogic.SetCanvasSize(dimensions[0], dimensions[1]);
 			}
 
+			// Clear canvas and draw elements
 			await JSRuntime.InvokeVoidAsync("clearCanvas");
 			
 			await JSRuntime.InvokeVoidAsync("drawBallImage", 
@@ -117,6 +134,7 @@
 				gameLogic.OpponentPaddle.X, gameLogic.OpponentPaddle.Y,
 				gameLogic.OpponentPaddle.Width, gameLogic.OpponentPaddle.Height);
 			
+			// Draw field lines
 			await JSRuntime.InvokeVoidAsync("drawCenterLine", gameLogic.CanvasHeight);
 			await JSRuntime.InvokeVoidAsync("drawThirdLines", gameLogic.CanvasHeight);
 		}
@@ -126,6 +144,7 @@
 		}
 	}
 
+	// Resource cleanup when component is destroyed
 	public void Dispose()
 	{
 		gameTimer?.Stop();
