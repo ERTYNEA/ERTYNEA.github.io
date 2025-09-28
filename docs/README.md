@@ -1,76 +1,76 @@
 # NewAndRetroPong - GitHub Pages Deployment
 
-## ? Configurado para ERTYNEA.github.io
+## ? Configured for ERTYNEA.github.io
 
-El proyecto NewAndRetroPong ha sido configurado específicamente para tu repositorio `ERTYNEA.github.io`.
+The NewAndRetroPong project has been specifically configured for your `ERTYNEA.github.io` repository.
 
-### ?? Configuración Específica Aplicada
+### ?? Specific Configuration Applied
 
-#### Base URL Correcta
+#### Correct Base URL
 ```html
 <base href="/" />
 ```
-? **Configuración perfecta** para tu repositorio personal `ERTYNEA.github.io`
+? **Perfect configuration** for your personal repository `ERTYNEA.github.io`
 
-### ?? Estructura de Publicación
+### ?? Publication Structure
 
 ```
 docs/
-??? .nojekyll              # ? Listo para Blazor WebAssembly
-??? index.html             # ? Configurado para ERTYNEA.github.io
-??? _framework/            # Framework de Blazor WebAssembly
-??? css/                   # Hojas de estilo optimizadas
-??? assets/                # Recursos del juego
-??? lib/                   # Librerías (Bootstrap, etc.)
+??? .nojekyll              # ? Ready for Blazor WebAssembly
+??? index.html             # ? Configured for ERTYNEA.github.io
+??? _framework/            # Blazor WebAssembly framework
+??? css/                   # Optimized stylesheets
+??? assets/                # Game resources
+??? lib/                   # Libraries (Bootstrap, etc.)
 ```
 
-### ?? Configuración en GitHub Pages
+### ?? GitHub Pages Configuration
 
-Para tu repositorio `ERTYNEA.github.io`:
+For your `ERTYNEA.github.io` repository:
 
-1. **Ve a Settings** ? **Pages** en tu repositorio
-2. **Source**: Selecciona "Deploy from a branch"
-3. **Branch**: Selecciona "main" 
-4. **Folder**: Selecciona "/docs"
+1. **Go to Settings** ? **Pages** in your repository
+2. **Source**: Select "Deploy from a branch"
+3. **Branch**: Select "main" 
+4. **Folder**: Select "/docs"
 5. **Save**
 
-### ?? URL Final del Juego
+### ?? Final Game URL
 
-Tu juego estará disponible en:
+Your game will be available at:
 ```
 https://ERTYNEA.github.io/
 ```
 
-### ? Ventajas de tu Configuración
+### ? Advantages of Your Configuration
 
-Como `ERTYNEA.github.io` es tu **repositorio personal de GitHub Pages**:
-- ? **URL limpia** - Sin subdirectorios adicionales
-- ? **Dominio directo** - Acceso directo desde tu perfil
-- ? **Base href simple** - Solo necesita `href="/"`
-- ? **Carga optimizada** - Sin redirecciones adicionales
+Since `ERTYNEA.github.io` is your **personal GitHub Pages repository**:
+- ? **Clean URL** - No additional subdirectories
+- ? **Direct domain** - Direct access from your profile
+- ? **Simple base href** - Only needs `href="/"`
+- ? **Optimized loading** - No additional redirections
 
-### ?? Juego Listo para Deployment
+### ?? Game Ready for Deployment
 
-**NewAndRetroPong v0.1.3** incluye:
-- ?? Juego Pong completo y funcional
-- ??? Control con mouse (horizontal y vertical)
-- ?? IA oponente inteligente
-- ?? Diseño responsivo full-screen
-- ? 60 FPS de gameplay fluido
-- ??? Arquitectura refactorizada (GameLogic, Ball, Paddle separados)
+**NewAndRetroPong v0.1.3** includes:
+- ?? Complete and functional Pong game
+- ??? Mouse control (horizontal and vertical)
+- ?? Intelligent opponent AI
+- ?? Full-screen responsive design
+- ? 60 FPS fluid gameplay
+- ??? Refactored architecture (GameLogic, Ball, Paddle separated)
 
-### ?? Archivos Optimizados
+### ?? Optimized Files
 
-- ? **Blazor WebAssembly .NET 9** compilado
-- ? **Assets comprimidos** (.br, .gz)
-- ? **JavaScript integrado** para canvas y controles
-- ? **CSS optimizado** para full-screen gaming
+- ? **Blazor WebAssembly .NET 9** compiled
+- ? **Compressed assets** (.br, .gz)
+- ? **Integrated JavaScript** for canvas and controls
+- ? **Optimized CSS** for full-screen gaming
 
-### ?? Checklist Final
+### ?? Final Checklist
 
-- ? `docs/.nojekyll` creado
-- ? `docs/index.html` con `<base href="/" />`
-- ? Assets y framework en lugar correcto  
-- ? Configuración específica para `ERTYNEA.github.io`
+- ? `docs/.nojekyll` created
+- ? `docs/index.html` with `<base href="/" />`
+- ? Assets and framework in correct location  
+- ? Specific configuration for `ERTYNEA.github.io`
 
-**¡Todo listo!** Solo activa GitHub Pages en tu repositorio y tu juego estará online en https://ERTYNEA.github.io/ ??
+**All ready!** Just activate GitHub Pages in your repository and your game will be online at https://ERTYNEA.github.io/ ??
