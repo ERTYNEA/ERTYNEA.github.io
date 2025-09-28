@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>NewAndRetroPong</title>
+	<base href="/" />
+	<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" />
+	<link rel="stylesheet" href="css/app.css" />
+	<link rel="stylesheet" href="css/game.css" />
+	<link rel="icon" type="image/png" href="favicon.png" />
+	<link href="NewAndRetroPong.styles.css" rel="stylesheet" />
+</head>
+
+<body>
+	<div id="app">
+		<svg class="loading-progress">
+			<circle r="40%" cx="50%" cy="50%" />
+			<circle r="40%" cx="50%" cy="50%" />
+		</svg>
+		<div class="loading-progress-text"></div>
+	</div>
+
+	<div id="blazor-error-ui">
+		An unhandled error has occurred.
+		<a href="." class="reload">Reload</a>
+		<span class="dismiss">🗙</span>
+	</div>
+	
+	<script src="_framework/blazor.webassembly.js"></script>
+	
+	<script>
+		let canvas, ctx;
+		let dotNetHelper;
+		let images = {};
+
+		function preloadImages() {
+			const imageUrls = {
+				ball: 'assets/images/ball.png',
+				playerPaddle: 'assets/images/paddle_player.png',
+				enemyPaddle: 'assets/images/paddle_enemy.png'
+			};
+
+			for (const [key, url] of Object.entries(imageUrls)) {
+				const img = new Image();
+				img.onload = () => console.log(`Loaded: ${key}`);
+				img.onerror = () => console.warn(`Failed to load: ${url}`);
+				img.src = url;
+				images[key] = img;
+			}
+		}
+
+		window.initializeGameCanvas = (canvasElement, dotNetReference) => {
+			canvas = canvasElement;
+			ctx = canvas.getContext('2d');
+			dotNetHelper = dotNetReference;
+			
+			resizeCanvas();
+			preloadImages();
+			
+			window.addEventListener('resize', resizeCanvas);
+			canvas.addEventListener('mousemove', handleMouseMove);
+			canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+			canvas.focus();
+		};
+
+		function resizeCanvas() {
+			if (!canvas) return;
+			
+			const maxWidth = Math.min(window.innerWidth * 0.4, 400);
+			const maxHeight = Math.min(window.innerHeight * 0.8, 700);
+			
+			let width = maxWidth;
+			let height = (width * 7) / 4;
+			
+			if (height > maxHeight) {
+				height = maxHeight;
+				width = (height * 4) / 7;
+			}
+			
+			canvas.width = width;
+			canvas.height = height;
+			canvas.style.width = width + 'px';
+			canvas.style.height = height + 'px';
+		}
+
+		async function handleMouseMove(event) {
+			if (dotNetHelper) {
+				const rect = canvas.getBoundingClientRect();
+				const scaleX = canvas.width / rect.width;
+				const scaleY = canvas.height / rect.height;
+				
+				const canvasX = (event.clientX - rect.left) * scaleX;
+				const canvasY = (event.clientY - rect.top) * scaleY;
+				
+				try {
+					await dotNetHelper.invokeMethodAsync('HandleMouseMove', canvasX, canvasY);
+				} catch (error) {
+					console.warn('Mouse handler error:', error);
+				}
+			}
+		}
+
+		window.focusCanvas = (canvasElement) => {
+			canvasElement.focus();
+		};
+
+		window.getCanvasRect = () => {
+			if (!canvas) return [0, 0, 400, 700];
+			const rect = canvas.getBoundingClientRect();
+			return [rect.left, rect.top, rect.width, rect.height];
+		};
+
+		window.clearCanvas = () => {
+			if (!ctx || !canvas) return;
+			ctx.fillStyle = '#000';
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+		};
+
+		window.drawBallImage = (x, y, size) => {
+			if (!ctx) return;
+			
+			if (images.ball && images.ball.complete && images.ball.naturalWidth > 0) {
+				ctx.drawImage(images.ball, x - size/2, y - size/2, size, size);
+			} else {
+				ctx.fillStyle = '#fff';
+				ctx.beginPath();
+				ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+				ctx.fill();
+			}
+		};
+
+		window.drawPlayerPaddleImage = (x, y, width, height) => {
+			if (!ctx) return;
+			
+			if (images.playerPaddle && images.playerPaddle.complete && images.playerPaddle.naturalWidth > 0) {
+				ctx.drawImage(images.playerPaddle, x, y, width, height);
+			} else {
+				ctx.fillStyle = '#4ecdc4';
+				ctx.fillRect(x, y, width, height);
+				ctx.strokeStyle = '#fff';
+				ctx.lineWidth = 1;
+				ctx.strokeRect(x, y, width, height);
+			}
+		};
+
+		window.drawOpponentPaddleImage = (x, y, width, height) => {
+			if (!ctx) return;
+			
+			if (images.enemyPaddle && images.enemyPaddle.complete && images.enemyPaddle.naturalWidth > 0) {
+				ctx.drawImage(images.enemyPaddle, x, y, width, height);
+			} else {
+				ctx.fillStyle = '#ff6b6b';
+				ctx.fillRect(x, y, width, height);
+				ctx.strokeStyle = '#fff';
+				ctx.lineWidth = 1;
+				ctx.strokeRect(x, y, width, height);
+			}
+		};
+
+		window.drawCenterLine = (canvasHeight) => {
+			if (!ctx || !canvas) return;
+			ctx.strokeStyle = '#444';
+			ctx.lineWidth = 2;
+			ctx.setLineDash([8, 8]);
+			ctx.beginPath();
+			ctx.moveTo(0, canvasHeight / 2);
+			ctx.lineTo(canvas.width, canvasHeight / 2);
+			ctx.stroke();
+			ctx.setLineDash([]);
+		};
+
+		window.drawThirdLines = (canvasHeight) => {
+			if (!ctx || !canvas) return;
+			ctx.strokeStyle = '#222';
+			ctx.lineWidth = 1;
+			ctx.setLineDash([3, 3]);
+			
+			ctx.beginPath();
+			ctx.moveTo(0, canvasHeight / 3);
+			ctx.lineTo(canvas.width, canvasHeight / 3);
+			ctx.stroke();
+			
+			ctx.beginPath();
+			ctx.moveTo(0, canvasHeight * 2 / 3);
+			ctx.lineTo(canvas.width, canvasHeight * 2 / 3);
+			ctx.stroke();
+			
+			ctx.setLineDash([]);
+		};
+
+		window.getCanvasSize = () => {
+			if (!canvas) return [400, 700];
+			return [canvas.width, canvas.height];
+		};
+
+		document.addEventListener('visibilitychange', () => {
+			if (!document.hidden && canvas) canvas.focus();
+		});
+	</script>
+</body>
+
+</html>

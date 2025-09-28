@@ -1,0 +1,128 @@
+@page "/"
+@using NewAndRetroPong.Game
+@implements IDisposable
+@inject IJSRuntime JSRuntime
+
+<PageTitle>NewAndRetroPong</PageTitle>
+
+<div class="game-fullscreen">
+	<div class="game-version">v@(gameLogic.Version)</div>
+	
+	<div class="game-header">
+		<div class="game-score">
+			<span class="opponent-score">@gameLogic.OpponentScore</span>
+			<span class="score-separator">-</span>
+			<span class="player-score">@gameLogic.PlayerScore</span>
+		</div>
+	</div>
+	
+	<div class="canvas-fullscreen-container">
+		<canvas @ref="canvasRef" 
+				id="gameCanvas" 
+				@onclick="StartGameOnClick"
+				@onmousemove="HandleMouseMove"
+				@onmousemove:preventDefault="true"
+				tabindex="0">
+			Your browser does not support HTML5 Canvas.
+		</canvas>
+	</div>
+</div>
+
+@code {
+	private ElementReference canvasRef;
+	private GameLogic gameLogic = new();
+	private DotNetObjectReference<Game>? dotNetReference;
+	private System.Timers.Timer? gameTimer;
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			dotNetReference = DotNetObjectReference.Create(this);
+			await JSRuntime.InvokeVoidAsync("initializeGameCanvas", canvasRef, dotNetReference);
+			await JSRuntime.InvokeVoidAsync("focusCanvas", canvasRef);
+			await RenderGame();
+			
+			gameTimer = new System.Timers.Timer(16);
+			gameTimer.Elapsed += async (sender, e) => await GameLoop();
+			gameTimer.Start();
+		}
+	}
+
+	private async Task GameLoop()
+	{
+		gameLogic.UpdateGame();
+		await RenderGame();
+		await InvokeAsync(StateHasChanged);
+	}
+
+	private async Task StartGameOnClick()
+	{
+		if (gameLogic.CanStartGame())
+		{
+			gameLogic.StartGame();
+			StateHasChanged();
+		}
+	}
+
+	[JSInvokable]
+	public async Task HandleMouseMove(double clientX, double clientY)
+	{
+		var canvasRect = await JSRuntime.InvokeAsync<double[]>("getCanvasRect");
+		if (canvasRect.Length >= 4)
+		{
+			float scaleX = gameLogic.CanvasWidth / (float)canvasRect[2];
+			float scaleY = gameLogic.CanvasHeight / (float)canvasRect[3];
+			
+			float canvasX = (float)(clientX - canvasRect[0]) * scaleX;
+			float canvasY = (float)(clientY - canvasRect[1]) * scaleY;
+			
+			gameLogic.UpdateMousePosition(canvasX, canvasY);
+			await RenderGame();
+		}
+	}
+
+	private async Task HandleMouseMove(MouseEventArgs e)
+	{
+		await HandleMouseMove(e.ClientX, e.ClientY);
+	}
+
+	private async Task RenderGame()
+	{
+		try
+		{
+			var dimensions = await JSRuntime.InvokeAsync<int[]>("getCanvasSize");
+			if (dimensions.Length >= 2)
+			{
+				gameLogic.SetCanvasSize(dimensions[0], dimensions[1]);
+			}
+
+			await JSRuntime.InvokeVoidAsync("clearCanvas");
+			
+			await JSRuntime.InvokeVoidAsync("drawBallImage", 
+				gameLogic.Ball.X, gameLogic.Ball.Y, gameLogic.Ball.Size);
+			
+			await JSRuntime.InvokeVoidAsync("drawPlayerPaddleImage", 
+				gameLogic.PlayerPaddle.X, gameLogic.PlayerPaddle.Y,
+				gameLogic.PlayerPaddle.Width, gameLogic.PlayerPaddle.Height);
+			
+			await JSRuntime.InvokeVoidAsync("drawOpponentPaddleImage", 
+				gameLogic.OpponentPaddle.X, gameLogic.OpponentPaddle.Y,
+				gameLogic.OpponentPaddle.Width, gameLogic.OpponentPaddle.Height);
+			
+			await JSRuntime.InvokeVoidAsync("drawCenterLine", gameLogic.CanvasHeight);
+			await JSRuntime.InvokeVoidAsync("drawThirdLines", gameLogic.CanvasHeight);
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Error rendering game: {ex.Message}");
+		}
+	}
+
+	public void Dispose()
+	{
+		gameTimer?.Stop();
+		gameTimer?.Dispose();
+		dotNetReference?.Dispose();
+	}
+}
