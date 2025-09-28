@@ -1,19 +1,19 @@
-# ?? NewAndRetroPong
+# NewAndRetroPong
 
 [![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)
 [![Blazor WebAssembly](https://img.shields.io/badge/Blazor-WebAssembly-7139d1?style=flat-square&logo=blazor)](https://blazor.net/)
 [![C#](https://img.shields.io/badge/C%23-13.0-239120?style=flat-square&logo=csharp)](https://docs.microsoft.com/en-us/dotnet/csharp/)
-[![Live Demo](https://img.shields.io/badge/??_Play_Now-Live_Demo-00d4aa?style=flat-square)](https://ERTYNEA.github.io/)
+[![Live Demo](https://img.shields.io/badge/Play_Now-Live_Demo-00d4aa?style=flat-square)](https://ERTYNEA.github.io/)
 
 A modern, full-screen **Pong game** built with **.NET 9** and **Blazor WebAssembly**. Experience the classic arcade game with smooth 60 FPS gameplay, intelligent AI opponent, and responsive mouse controls.
 
-## ?? [**PLAY NOW** ?](https://ERTYNEA.github.io/)
+## [**PLAY NOW**](https://ERTYNEA.github.io/)
 
 ---
 
-## ? Features
+## Features
 
-### ?? **Core Gameplay**
+### **Core Gameplay**
 - **Full-screen immersive experience** - Clean, distraction-free gaming
 - **Smooth 60 FPS gameplay** - Buttery smooth animations and physics
 - **Mouse control system** - Intuitive horizontal and vertical paddle movement
@@ -21,13 +21,13 @@ A modern, full-screen **Pong game** built with **.NET 9** and **Blazor WebAssemb
 - **Real-time scoring** - Live score tracking with visual feedback
 - **Auto-restart mechanism** - Seamless transitions after scoring
 
-### ?? **Visual Design**
+### **Visual Design**
 - **Modern minimalist UI** - Clean interface with version display
 - **Responsive design** - Perfect experience on desktop, tablet, and mobile
 - **Professional styling** - Gradient backgrounds and smooth animations
 - **Canvas-based graphics** - High-performance rendering with fallback sprites
 
-### ? **Technical Excellence**
+### **Technical Excellence**
 - **Blazor WebAssembly** - Runs entirely in the browser
 - **Clean architecture** - Separated concerns with Core game logic
 - **Optimized performance** - AOT compilation and compressed assets
@@ -35,30 +35,30 @@ A modern, full-screen **Pong game** built with **.NET 9** and **Blazor WebAssemb
 
 ---
 
-## ?? How to Play
+## How to Play
 
-1. **??? Move your mouse** to control your paddle (bottom area)
-2. **??? Click anywhere** on the game area to start
-3. **?? Hit the ball** with your paddle to keep it in play
-4. **?? Score points** when the ball passes your opponent
-5. **?? Click to continue** after each point
+1. **Move your mouse** to control your paddle (bottom area)
+2. **Click anywhere** on the game area to start
+3. **Hit the ball** with your paddle to keep it in play
+4. **Score points** when the ball passes your opponent
+5. **Click to continue** after each point
 
 ---
 
-## ??? Architecture
+## Architecture
 
 ### **Project Structure**
 ```
-?? NewAndRetroPong/
-??? ?? Game/
+NewAndRetroPong/
+??? Game/
 ?   ??? Game.razor              # Main UI Component
 ?   ??? Core/                   # Game Logic Layer
 ?       ??? GameLogic.cs        # Game Engine
 ?       ??? Ball.cs             # Ball Entity
 ?       ??? Paddle.cs           # Paddle Entity
-??? ?? Layout/
+??? Layout/
 ?   ??? MainLayout.razor        # Full-screen Layout
-??? ?? wwwroot/
+??? wwwroot/
     ??? css/game.css            # Game Styling
     ??? assets/images/          # Game Assets
     ??? index.html              # Entry Point
@@ -73,7 +73,7 @@ A modern, full-screen **Pong game** built with **.NET 9** and **Blazor WebAssemb
 
 ---
 
-## ?? Getting Started
+## Getting Started
 
 ### **Prerequisites**
 - [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
@@ -106,7 +106,7 @@ dotnet publish -c Release -o docs
 
 ---
 
-## ?? Game Mechanics
+## Game Mechanics
 
 ### **Player Controls**
 - **Mouse Movement**: Controls paddle position in real-time
@@ -125,7 +125,7 @@ dotnet publish -c Release -o docs
 
 ---
 
-## ??? Development Features
+## Development Features
 
 ### **Code Quality**
 - **Namespace-first convention** - Consistent code organization
@@ -141,18 +141,18 @@ dotnet publish -c Release -o docs
 
 ---
 
-## ?? Cross-Platform Support
+## Cross-Platform Support
 
 | Platform | Support | Notes |
 |----------|---------|-------|
-| ??? **Desktop** | ? Full | Optimal experience with mouse control |
-| ?? **Mobile** | ? Full | Touch-responsive design |
-| ?? **Tablet** | ? Full | Perfect for touch gameplay |
-| ?? **Web** | ? Full | No installation required |
+| **Desktop** | Full | Optimal experience with mouse control |
+| **Mobile** | Full | Touch-responsive design |
+| **Tablet** | Full | Perfect for touch gameplay |
+| **Web** | Full | No installation required |
 
 ---
 
-## ?? Technical Specifications
+## Technical Specifications
 
 ### **Performance Metrics**
 - **Frame Rate**: 60 FPS consistent gameplay
@@ -161,28 +161,28 @@ dotnet publish -c Release -o docs
 - **Bundle Size**: Compressed for fast delivery
 
 ### **Browser Compatibility**
-- ? Chrome/Edge (Chromium) 90+
-- ? Firefox 88+
-- ? Safari 14+
-- ? Mobile browsers (iOS Safari, Chrome Mobile)
+- Chrome/Edge (Chromium) 90+
+- Firefox 88+
+- Safari 14+
+- Mobile browsers (iOS Safari, Chrome Mobile)
 
 ---
 
-## ?? Screenshots
+## Screenshots
 
 ### Game in Action
 *Experience smooth, full-screen Pong gameplay with modern UI design*
 
 ### Key Features
-- ?? **Immersive full-screen mode**
-- ?? **Real-time score display** 
-- ??? **Intuitive mouse controls**
-- ?? **Smart AI opponent**
-- ?? **Mobile-responsive design**
+- **Immersive full-screen mode**
+- **Real-time score display** 
+- **Intuitive mouse controls**
+- **Smart AI opponent**
+- **Mobile-responsive design**
 
 ---
 
-## ?? Deployment
+## Deployment
 
 This project is configured for **GitHub Pages** deployment:
 
@@ -197,18 +197,18 @@ This project is configured for **GitHub Pages** deployment:
 
 ---
 
-## ?? Version History
+## Version History
 
 ### **v0.1.3** (Current)
-- ? Full-screen immersive gameplay
-- ? Refactored architecture with separated classes
-- ? GitHub Pages deployment ready
-- ? Mobile-responsive design
-- ? Performance optimizations
+- Full-screen immersive gameplay
+- Refactored architecture with separated classes
+- GitHub Pages deployment ready
+- Mobile-responsive design
+- Performance optimizations
 
 ---
 
-## ?? Contributing
+## Contributing
 
 Contributions are welcome! This project serves as an excellent example of:
 - Modern .NET 9 and Blazor WebAssembly development
@@ -218,28 +218,28 @@ Contributions are welcome! This project serves as an excellent example of:
 
 ---
 
-## ?? License
+## License
 
 This project is open source and available for educational and personal use.
 
 ---
 
-## ?? About
+## About
 
 **NewAndRetroPong** demonstrates modern web game development using Microsoft's latest technologies. Built with **.NET 9**, **Blazor WebAssembly**, and **C# 13.0**, it showcases how to create performant, cross-platform games that run entirely in the browser.
 
 ### **Perfect For:**
-- ?? Learning modern .NET web development
-- ?? Understanding game development concepts
-- ?? Exploring Blazor WebAssembly capabilities
-- ?? Studying responsive web design
+- Learning modern .NET web development
+- Understanding game development concepts
+- Exploring Blazor WebAssembly capabilities
+- Studying responsive web design
 
 ---
 
 <div align="center">
 
-**[?? PLAY NOW](https://ERTYNEA.github.io/) | [? Star this repo](https://github.com/ERTYNEA/ERTYNEA.github.io) | [?? Fork](https://github.com/ERTYNEA/ERTYNEA.github.io/fork)**
+**[PLAY NOW](https://ERTYNEA.github.io/) | [Star this repo](https://github.com/ERTYNEA/ERTYNEA.github.io) | [Fork](https://github.com/ERTYNEA/ERTYNEA.github.io/fork)**
 
-*Built with ?? using .NET 9 and Blazor WebAssembly*
+*Built with care using .NET 9 and Blazor WebAssembly*
 
 </div>
