@@ -1,5 +1,6 @@
 /* NewAndRetroPong Game - Full Screen Styles */
 
+/* Main game container - occupies entire screen */
 .game-fullscreen {
 	width: 100vw;
 	height: 100vh;
@@ -17,6 +18,7 @@
 	overflow: hidden;
 }
 
+/* Game version - top left corner */
 .game-version {
 	position: absolute;
 	top: 15px;
@@ -30,6 +32,7 @@
 	border-radius: 5px;
 }
 
+/* Score - top right corner */
 .game-header {
 	position: absolute;
 	top: 15px;
@@ -47,6 +50,7 @@
 	border-radius: 5px;
 }
 
+/* Specific colors for each score */
 .opponent-score {
 	color: #ff6b6b;
 }
@@ -60,6 +64,7 @@
 	opacity: 0.7;
 }
 
+/* Canvas container - flex for centering */
 .canvas-fullscreen-container {
 	flex: 1;
 	display: flex;
@@ -70,23 +75,25 @@
 	position: relative;
 }
 
+/* Game canvas with white side borders */
 #gameCanvas {
 	background: #000;
-	border: 5px solid #fff;
-	border-radius: 10px;
-	box-shadow: 0 0 30px rgba(0,0,0,0.8);
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
 	cursor: none;
-	max-width: 90vw;
-	max-height: 90vh;
-	width: 400px;
-	height: 700px;
+	width: auto;
+	height: 100vh;
+	max-width: 100vw;
+	border-left: 5px solid white;
+	border-right: 5px solid white;
 }
 
 #gameCanvas:focus {
-	outline: 4px solid #ffd700;
-	outline-offset: 3px;
+	outline: none;
 }
 
+/* Responsive for tablets */
 @media (max-width: 768px) {
 	.game-score {
 		font-size: 1.5rem !important;
@@ -94,10 +101,8 @@
 	}
 	
 	#gameCanvas {
-		width: 350px !important;
-		height: 600px !important;
-		max-width: 85vw !important;
-		max-height: 85vh !important;
+		border-left: 5px solid white;
+		border-right: 5px solid white;
 	}
 	
 	.game-version {
@@ -112,6 +117,7 @@
 	}
 }
 
+/* Responsive for mobile */
 @media (max-width: 480px) {
 	.game-score {
 		font-size: 1.2rem !important;
@@ -119,10 +125,8 @@
 	}
 	
 	#gameCanvas {
-		width: 300px !important;
-		height: 500px !important;
-		max-width: 80vw !important;
-		max-height: 80vh !important;
+		border-left: 5px solid white;
+		border-right: 5px solid white;
 	}
 	
 	.game-header {
@@ -136,10 +140,12 @@
 	}
 }
 
+/* Hide Blazor navigation elements */
 .navbar, .sidebar, .top-row {
 	display: none !important;
 }
 
+/* Complete body reset for fullscreen game */
 body, html {
 	margin: 0 !important;
 	padding: 0 !important;

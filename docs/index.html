@@ -32,10 +32,12 @@
 	<script src="_framework/blazor.webassembly.js"></script>
 	
 	<script>
+		// Global game variables
 		let canvas, ctx;
 		let dotNetHelper;
 		let images = {};
 
+		// Preload game images
 		function preloadImages() {
 			const imageUrls = {
 				ball: 'assets/images/ball.png',
@@ -52,6 +54,7 @@
 			}
 		}
 
+		// Initialize canvas and configure events
 		window.initializeGameCanvas = (canvasElement, dotNetReference) => {
 			canvas = canvasElement;
 			ctx = canvas.getContext('2d');
@@ -66,18 +69,24 @@
 			canvas.focus();
 		};
 
+		// Resize canvas maintaining mobile aspect ratio (9:16)
 		function resizeCanvas() {
 			if (!canvas) return;
 			
-			const maxWidth = Math.min(window.innerWidth * 0.4, 400);
-			const maxHeight = Math.min(window.innerHeight * 0.8, 700);
+			const availableHeight = window.innerHeight;
+			const availableWidth = window.innerWidth;
+			const targetAspectRatio = 9 / 16;
 			
-			let width = maxWidth;
-			let height = (width * 7) / 4;
+			let width, height;
 			
-			if (height > maxHeight) {
-				height = maxHeight;
-				width = (height * 4) / 7;
+			// Prioritize filling full height
+			height = availableHeight;
+			width = height * targetAspectRatio;
+			
+			// Adjust if width exceeds available space
+			if (width > availableWidth) {
+				width = availableWidth;
+				height = width / targetAspectRatio;
 			}
 			
 			canvas.width = width;
@@ -86,6 +95,7 @@
 			canvas.style.height = height + 'px';
 		}
 
+		// Handle mouse movement with correct scaling
 		async function handleMouseMove(event) {
 			if (dotNetHelper) {
 				const rect = canvas.getBoundingClientRect();
@@ -103,6 +113,7 @@
 			}
 		}
 
+		// Helper functions for Blazor
 		window.focusCanvas = (canvasElement) => {
 			canvasElement.focus();
 		};
@@ -119,12 +130,14 @@
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
 		};
 
+		// Drawing functions - with fallbacks if images don't load
 		window.drawBallImage = (x, y, size) => {
 			if (!ctx) return;
 			
 			if (images.ball && images.ball.complete && images.ball.naturalWidth > 0) {
 				ctx.drawImage(images.ball, x - size/2, y - size/2, size, size);
 			} else {
+				// Fallback: white circle
 				ctx.fillStyle = '#fff';
 				ctx.beginPath();
 				ctx.arc(x, y, size / 2, 0, Math.PI * 2);
@@ -138,6 +151,7 @@
 			if (images.playerPaddle && images.playerPaddle.complete && images.playerPaddle.naturalWidth > 0) {
 				ctx.drawImage(images.playerPaddle, x, y, width, height);
 			} else {
+				// Fallback: cyan rectangle with white border
 				ctx.fillStyle = '#4ecdc4';
 				ctx.fillRect(x, y, width, height);
 				ctx.strokeStyle = '#fff';
@@ -152,6 +166,7 @@
 			if (images.enemyPaddle && images.enemyPaddle.complete && images.enemyPaddle.naturalWidth > 0) {
 				ctx.drawImage(images.enemyPaddle, x, y, width, height);
 			} else {
+				// Fallback: red rectangle with white border
 				ctx.fillStyle = '#ff6b6b';
 				ctx.fillRect(x, y, width, height);
 				ctx.strokeStyle = '#fff';
@@ -160,9 +175,10 @@
 			}
 		};
 
+		// Center field line (dashed)
 		window.drawCenterLine = (canvasHeight) => {
 			if (!ctx || !canvas) return;
-			ctx.strokeStyle = '#444';
+			ctx.strokeStyle = '#ffffff';
 			ctx.lineWidth = 2;
 			ctx.setLineDash([8, 8]);
 			ctx.beginPath();
@@ -172,17 +188,20 @@
 			ctx.setLineDash([]);
 		};
 
+		// Third lines (delimit game areas)
 		window.drawThirdLines = (canvasHeight) => {
-			if (!ctx) return;
-			ctx.strokeStyle = '#222';
+			if (!ctx || !canvas) return;
+			ctx.strokeStyle = '#ffffff';
 			ctx.lineWidth = 1;
 			ctx.setLineDash([3, 3]);
 			
+			// Top line (1/3)
 			ctx.beginPath();
 			ctx.moveTo(0, canvasHeight / 3);
 			ctx.lineTo(canvas.width, canvasHeight / 3);
 			ctx.stroke();
 			
+			// Bottom line (2/3)
 			ctx.beginPath();
 			ctx.moveTo(0, canvasHeight * 2 / 3);
 			ctx.lineTo(canvas.width, canvasHeight * 2 / 3);
@@ -196,6 +215,7 @@
 			return [canvas.width, canvas.height];
 		};
 
+		// Maintain focus when tab becomes active again
 		document.addEventListener('visibilitychange', () => {
 			if (!document.hidden && canvas) canvas.focus();
 		});
