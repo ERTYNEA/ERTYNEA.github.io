@@ -1,78 +1,97 @@
 # NewAndRetroPong - Pong Game Implementation
 
-## Game Version: 0.1.3 (Fixed)
+## Game Version: 0.1.3 (Refactored Architecture)
 
-### ? Critical Bug Fixes
+### ? Major Architecture Refactoring
 
-#### Game Restart Issue Resolved
-- ? **Added IsBallPaused state** - Tracks when ball is paused after scoring
-- ? **New CanStartGame() method** - Properly determines when game can restart
-- ? **Fixed click detection** - Game now restarts correctly after each point
-- ? **Maintained paddle control** - Paddles stay responsive between rounds
+#### New Project Structure
+- ? **Separated classes** - Each class now has its own file
+- ? **Core namespace** - Game logic moved to `NewAndRetroPong.Game.Core`
+- ? **Namespace-first convention** - All files follow `namespace ? using ? code` pattern
+- ? **Clean organization** - Better separation of concerns
 
-#### UI Layout Improvements
-- ? **Score repositioned** - Moved to top-right corner aligned with version
-- ? **Consistent styling** - Score and version have matching background style
-- ? **Better visual hierarchy** - Clean layout with version (left) and score (right)
-- ? **Responsive design** - Proper scaling on all screen sizes
+#### New File Organization
+```
+Game/
+??? Game.razor              # UI Component (NewAndRetroPong.Game)
+??? Core/                   # Core game logic
+    ??? GameLogic.cs        # Main game engine (NewAndRetroPong.Game.Core)
+    ??? Ball.cs             # Ball entity (NewAndRetroPong.Game.Core)
+    ??? Paddle.cs           # Paddle entity (NewAndRetroPong.Game.Core)
+```
+
+#### Namespace Convention Applied
+- **Pattern**: `namespace FirstName.SecondName; using statements; code`
+- **Applied to**: All `.cs` and `.razor` files
+- **Exception**: `Program.cs` (top-level statements incompatible with namespace)
 
 ### Technical Implementation
 
-#### Fixed Game Flow
+#### Core Classes Separation
+- **`Ball.cs`** - Contains only Ball class with position and velocity properties
+- **`Paddle.cs`** - Contains only Paddle class with position and size properties  
+- **`GameLogic.cs`** - Main game engine with all game logic and state management
+
+#### Namespace Structure
 ```
-Initial State: Ball paused, IsBallPaused = true, CanStartGame() = true
-?
-First Click: Ball launches, IsGameStarted = true, IsBallPaused = false
-?
-During Play: Ball physics active, both paddles responsive
-?
-Point Scored: Ball resets, IsBallPaused = true, paddles STAY ACTIVE
-?
-Next Click: CanStartGame() = true, ball relaunches, continuous gameplay
+NewAndRetroPong                    # Root namespace
+??? Layout/                        # Layout components
+?   ??? MainLayout.razor          # NewAndRetroPong.Layout
+??? Game/                         # Game UI layer
+?   ??? Game.razor                # NewAndRetroPong.Game
+??? Core/                         # Game logic layer
+    ??? GameLogic.cs              # NewAndRetroPong.Game.Core
+    ??? Ball.cs                   # NewAndRetroPong.Game.Core
+    ??? Paddle.cs                 # NewAndRetroPong.Game.Core
 ```
 
-#### New State Management
-- **IsGameRunning** - Controls ball physics and collisions
-- **IsGameStarted** - Controls paddle responsiveness
-- **IsBallPaused** - Tracks ball pause state after scoring
-- **CanStartGame()** - Determines if click should start/restart game
-
-#### UI Layout Changes
-- **Score position**: Top-right corner (15px from top/right)
-- **Version position**: Top-left corner (15px from top/left)
-- **Both elements**: Semi-transparent background for readability
-- **Responsive scaling**: Adjusts properly on mobile devices
+#### Updated Imports
+- **`_Imports.razor`** - Added `@using NewAndRetroPong.Game.Core`
+- **`Game.razor`** - Now imports from `NewAndRetroPong.Game.Core`
+- **All components** - Follow namespace-first convention
 
 ### Code Quality Improvements
-- Clean state management with proper boolean flags
-- Simplified game restart logic
-- Better visual hierarchy and layout
-- Maintained tab indentation standard
-- Removed redundant code and improved readability
+- **Single Responsibility** - Each file has one class/component
+- **Clear Dependencies** - Explicit namespace imports
+- **Better Organization** - Logical file structure
+- **Maintainability** - Easier to find and modify specific functionality
 
 ### File Changes Summary
 ```
-Game/
-??? GameLogic.cs     # Added IsBallPaused and CanStartGame() method
-??? Game.razor       # Updated click handler to use CanStartGame()
-wwwroot/
-??? css/game.css     # Repositioned score to top-right, improved styling
+CREATED:
+??? Game/Core/Ball.cs         # Ball entity class
+??? Game/Core/Paddle.cs       # Paddle entity class  
+??? Game/Core/GameLogic.cs    # Game logic class
+
+UPDATED:
+??? Game/Game.razor           # Updated imports and namespace
+??? Layout/MainLayout.razor   # Added namespace declaration
+??? App.razor                 # Added namespace declaration
+??? _Imports.razor            # Added Core namespace import
+??? Program.cs                # Updated imports (no namespace for top-level statements)
+
+REMOVED:
+??? Game/GameLogic.cs         # Old monolithic file
 ```
 
-### Game Features Confirmed Working
-- ? Full-screen immersive experience  
+### Preserved Functionality
+- ? All game features remain identical
 - ? Mouse-controlled player paddle
-- ? AI opponent with ball tracking
-- ? Smooth 60 FPS gameplay
-- ? **Auto-restart after scoring** (FIXED)
-- ? **Proper game state management** (FIXED)
-- ? Responsive design for all screen sizes
-- ? **Clean UI layout** (IMPROVED)
+- ? AI opponent behavior
+- ? 60 FPS smooth gameplay
+- ? Score system and game restart
+- ? Responsive full-screen design
+- ? Tab indentation maintained
 
-### User Experience Flow
-1. **Game loads**: Ball paused at center, paddles centered
-2. **Click to start**: Ball launches with random direction
-3. **Gameplay**: Both paddles move, ball physics active
-4. **Point scored**: Ball automatically pauses at center
-5. **Click to continue**: Ball relaunches, game continues seamlessly
-6. **Visual feedback**: Score updates in top-right, version in top-left
+### Benefits of New Structure
+- **Scalability** - Easy to add new game entities
+- **Testability** - Individual classes can be unit tested
+- **Readability** - Clear separation of concerns
+- **Maintenance** - Changes isolated to specific files
+- **Team Development** - Multiple developers can work on different components
+
+### Development Standards Applied
+- **Namespace-first convention** consistently applied
+- **File-per-class principle** implemented
+- **Clean dependencies** with explicit imports
+- **Logical folder structure** for better organization
