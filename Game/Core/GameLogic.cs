@@ -19,7 +19,7 @@ public class GameLogic
 	public bool IsBallPaused { get; private set; } = true;
 	public int PlayerScore { get; private set; }
 	public int OpponentScore { get; private set; }
-	public string Version { get; private set; } = "0.1.4";
+	public string Version { get; private set; } = "0.1.5";
 	
 	// Base configuration for 400x600 canvas (used as reference for scaling)
 	private const int BASE_CANVAS_WIDTH = 400;
