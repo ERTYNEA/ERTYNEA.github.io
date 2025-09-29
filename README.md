@@ -22,23 +22,26 @@ A modern, full-screen **Pong game** built with **.NET 9** and **Blazor WebAssemb
 - **Auto-restart mechanism** - Seamless transitions after scoring
 - **Responsive game elements** - Paddles and ball scale automatically to screen size
 
-### **Visual Design & UI - New in 0.1.5**
+### **Visual Design & UI - Enhanced in 0.1.5**
 - **Dynamic referee system** - Visual referee reactions to game events
-  - Neutral referee on game start
-  - Celebratory referee when player scores
-  - Opponent-favoring referee when AI scores
-  - Referee state persists until new game starts
+  - Neutral referee on game start and new game initiation
+  - Celebratory referee when player scores (persists until new game)
+  - Opponent-favoring referee when AI scores (persists until new game)
+  - State-based image switching with smooth transitions
 - **Immersive gradient background** - Beautiful cyan to magenta gradient (#00D0FF ? #FF00FF)
-- **Dual-section layout** - Game title on left, referee and score on right
+- **Perfectly balanced layout** - Vertically centered sections for optimal visual harmony
+  - Game title and version (left side) - centered as unified block
+  - Referee and score (right side) - centered as unified block
 - **Professional game branding** - 400x227px title image with dynamic positioning
-- **Centered responsive positioning** - Elements automatically center between screen edges and game canvas
-- **Enhanced spacing** - 20px consistent spacing throughout the interface
+- **Intelligent responsive positioning** - Elements automatically center between screen edges and game canvas
+- **Consistent spacing design** - 20px spacing throughout interface for visual coherence
 
 ### **Technical Excellence**
-- **Modern architecture** - Clean separation with dedicated RefereeState enum
-- **Blazor WebAssembly** - Runs entirely in the browser
-- **Dynamic positioning system** - JavaScript-powered responsive layout
-- **Fully responsive design** - Elements scale based on screen size
+- **Clean architecture** - Separated RefereeState enum in dedicated Core layer
+- **Blazor WebAssembly** - Runs entirely in the browser with .NET 9
+- **Dynamic positioning system** - JavaScript-powered responsive layout with vertical centering
+- **State management** - Sophisticated referee state tracking and persistence
+- **Fully responsive design** - Elements scale based on screen size with optimal breakpoints
 - **Cross-platform compatibility** - Works on any modern browser
 - **Optimized performance** - AOT compilation and compressed assets
 
@@ -47,11 +50,11 @@ A modern, full-screen **Pong game** built with **.NET 9** and **Blazor WebAssemb
 ## How to Play
 
 1. **Move your mouse** to control your paddle (bottom area)
-2. **Click anywhere** on the game area to start
+2. **Click anywhere** on the game area to start/restart
 3. **Hit the ball** with your paddle to keep it in play
 4. **Score points** when the ball passes your opponent
-5. **Watch the referee** react to your gameplay!
-6. **Click to continue** after each point
+5. **Watch the referee** react to your gameplay and remember your performance!
+6. **Click to start new game** - referee resets to neutral, scores persist
 
 ---
 
@@ -61,34 +64,34 @@ A modern, full-screen **Pong game** built with **.NET 9** and **Blazor WebAssemb
 ```
 NewAndRetroPong/
 ??? Game/
-?   ??? Game.razor              # Main UI Component with Dual-Section Layout
+?   ??? Game.razor              # Main UI Component with Vertically Centered Dual-Section Layout
 ?   ??? Core/                   # Game Logic Layer
-?       ??? GameLogic.cs        # Game Engine with Referee System
+?       ??? GameLogic.cs        # Game Engine with Enhanced Referee System
 ?       ??? Ball.cs             # Ball Entity
 ?       ??? Paddle.cs           # Paddle Entity
-?       ??? RefereeState.cs     # Referee State Management
+?       ??? RefereeState.cs     # Dedicated Referee State Management (Separated)
 ??? Layout/
 ?   ??? MainLayout.razor        # Full-screen Layout
 ??? wwwroot/
-    ??? css/game.css            # Enhanced Game Styling with Gradients
-    ??? assets/images/          # Game Assets including Referee Images
+    ??? css/game.css            # Enhanced Game Styling with Gradients & Vertical Centering
+    ??? assets/images/          # Optimized Game Assets
     ?   ??? title.png           # Game Title (400x227px)
     ?   ??? referee_neutral.png # Neutral Referee (400x400px)
     ?   ??? referee_player.png  # Player Score Referee (400x400px)
     ?   ??? referee_enemy.png   # AI Score Referee (400x400px)
-    ?   ??? ball.png            # Ball Sprite
-    ?   ??? paddle_player.png   # Player Paddle Sprite
-    ?   ??? paddle_enemy.png    # AI Paddle Sprite
-    ??? index.html              # Entry Point with Dynamic Positioning Logic
+    ?   ??? ball.png            # Enhanced Ball Sprite
+    ?   ??? paddle_player.png   # Enhanced Player Paddle Sprite
+    ?   ??? paddle_enemy.png    # Enhanced AI Paddle Sprite
+    ??? index.html              # Entry Point with Advanced Dynamic Positioning Logic
 ```
 
 ### **Technology Stack**
-- **Framework**: .NET 9 with C# 13.0
-- **Frontend**: Blazor WebAssembly
-- **Graphics**: HTML5 Canvas with JavaScript interop
-- **Styling**: CSS3 with responsive design and gradients
-- **State Management**: Custom RefereeState system
-- **Deployment**: GitHub Pages ready
+- **Framework**: .NET 9 with C# 13.0 pattern matching
+- **Frontend**: Blazor WebAssembly with component-based architecture
+- **Graphics**: HTML5 Canvas with optimized JavaScript interop
+- **Styling**: CSS3 with responsive design, gradients, and transform-based centering
+- **State Management**: Custom RefereeState enum with persistent game memory
+- **Deployment**: GitHub Pages optimized
 
 ---
 
@@ -96,7 +99,7 @@ NewAndRetroPong/
 
 ### **Prerequisites**
 - [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
-- Modern web browser
+- Modern web browser with WebAssembly support
 
 ### **Local Development**
 ```bash
@@ -127,127 +130,133 @@ dotnet publish -c Release -o docs
 
 ## Game Mechanics
 
-### **Dynamic Referee System - New in 0.1.5**
-- **State-based reactions**: Referee image changes based on game events
-- **Persistent feedback**: Referee state maintains until new game starts
-- **Visual storytelling**: Enhances game immersion with character reactions
-- **Responsive positioning**: 400x400px referee images scale for mobile devices
+### **Enhanced Referee System - Version 0.1.5**
+- **Intelligent state management**: Referee remembers game events until new game starts
+- **Visual storytelling**: Character reactions enhance immersion and feedback
+- **Persistent feedback**: Referee state maintains throughout point sequences
+- **Reset mechanism**: Returns to neutral only when clicking to start new game
+- **Responsive scaling**: 400x400px referee images adapt to all screen sizes
 
-### **Enhanced Visual Design**
-- **Gradient background**: Smooth cyan to magenta transition
-- **Dual-section layout**: Title/version on left, referee/score on right
-- **Dynamic positioning**: Elements center automatically between screen edges and canvas
-- **Professional branding**: High-quality title image with proper spacing
+### **Advanced Visual Design**
+- **Perfect vertical centering**: Both side sections centered as unified blocks using CSS transforms
+- **Gradient background**: Smooth cyan (#00D0FF) to magenta (#FF00FF) transition
+- **Intelligent layout**: Title/version block on left, referee/score block on right
+- **Dynamic positioning**: JavaScript calculates optimal horizontal centering between screen edges and canvas
+- **Professional presentation**: High-quality assets with consistent 20px spacing
 
 ### **Player Controls**
-- **Mouse Movement**: Controls paddle position in real-time
-- **Movement Area**: Bottom third of the game area
-- **Click to Start**: Simple interaction to begin/resume gameplay
+- **Mouse Movement**: Real-time paddle control with smooth responsiveness
+- **Movement Area**: Bottom third of the game area with boundary constraints
+- **Click to Start/Restart**: Simple interaction for game state management
 
 ### **AI Opponent**
-- **Ball Tracking**: Follows ball position horizontally
-- **Restricted Movement**: Operates only in top third of game area  
-- **Responsive AI**: Reacts to ball direction changes
+- **Advanced Ball Tracking**: Intelligent horizontal positioning based on ball location
+- **Area Restriction**: Operates exclusively in top third of game area
+- **Adaptive Response**: Reacts intelligently to ball direction changes
 
-### **Physics**
-- **Ball Bouncing**: Realistic collision detection with walls and paddles
-- **Angle Variation**: Hit position affects ball trajectory
-- **Speed Consistency**: Maintains constant game speed for fairness
+### **Enhanced Physics**
+- **Realistic Collisions**: Precise detection with walls and paddles
+- **Dynamic Trajectories**: Hit position influences ball angle with physics accuracy
+- **Consistent Performance**: Maintains 60 FPS for fair gameplay experience
 
 ---
 
 ## Development Features
 
-### **Code Quality**
-- **Clean architecture** - RefereeState enum separated into Core layer
-- **English-first comments** - All documentation in English
-- **Modern C# features** - Leverages C# 13.0 pattern matching
-- **Comprehensive documentation** - Well-documented codebase
-- **Refactored codebase** - Removed unused code and dependencies
+### **Code Quality & Architecture**
+- **Clean separation**: RefereeState enum properly isolated in Core layer
+- **Modern C# patterns**: Leverages C# 13.0 switch expressions and pattern matching
+- **Comprehensive refactoring**: Removed unused Bootstrap dependencies and placeholder files
+- **English-first documentation**: Complete codebase documentation in English
+- **Maintainable structure**: Clear component hierarchy and responsibility separation
 
 ### **Performance Optimizations**
-- **Responsive scaling system** - Efficient element sizing
-- **60 FPS game loop** - Consistent 16ms frame timing
-- **Memory management** - Proper disposal patterns
-- **Optimized rendering** - Canvas-based graphics with image preloading
+- **Advanced responsive system**: Efficient element scaling with CSS transforms
+- **Optimized game loop**: Consistent 16ms frame timing (60 FPS)
+- **Memory management**: Proper disposal patterns and resource cleanup
+- **Enhanced rendering**: Canvas-based graphics with preloaded, optimized images
+- **Asset optimization**: Removed unused files, compressed images
 
 ---
 
 ## Cross-Platform Support
 
-| Platform | Support | Notes |
-|----------|---------|-------|
-| **Desktop** | Full | Optimal experience with mouse control and full visual effects |
-| **Mobile** | Full | Touch-responsive design with scaled UI elements |
-| **Tablet** | Full | Perfect for touch gameplay with medium-sized assets |
-| **Web** | Full | No installation required, runs in any modern browser |
+| Platform | Support | Optimizations |
+|----------|---------|---------------|
+| **Desktop** | Full | Optimal mouse control, full visual effects, native resolution |
+| **Mobile** | Full | Touch-responsive design, scaled UI (250px assets), portrait optimization |
+| **Tablet** | Full | Perfect touch gameplay, medium assets (300px), landscape/portrait support |
+| **Web** | Full | No installation required, runs in any modern WebAssembly-capable browser |
 
 ---
 
 ## Technical Specifications
 
 ### **Performance Metrics**
-- **Frame Rate**: 60 FPS consistent gameplay
-- **Load Time**: < 3 seconds on modern connections
-- **Memory Usage**: Optimized WebAssembly footprint
-- **Bundle Size**: Compressed for fast delivery
+- **Frame Rate**: Consistent 60 FPS gameplay with optimized game loop
+- **Load Time**: < 3 seconds on modern connections with compressed assets
+- **Memory Usage**: Optimized WebAssembly footprint with efficient state management
+- **Bundle Size**: Compressed and optimized for fast delivery
 
-### **Responsive Design Breakpoints**
-- **Desktop**: Full 400px images and elements
-- **Tablet (?768px)**: Scaled to 300px images
-- **Mobile (?480px)**: Scaled to 250px images
-- **Dynamic positioning**: JavaScript-powered responsive layout
+### **Responsive Design System**
+- **Desktop (>768px)**: Full 400px images and elements
+- **Tablet (?768px)**: Scaled to 300px images with maintained aspect ratios
+- **Mobile (?480px)**: Optimized 250px images for touch interaction
+- **Dynamic positioning**: JavaScript-powered responsive layout with CSS transform centering
 
 ### **Browser Compatibility**
-- Chrome/Edge (Chromium) 90+
-- Firefox 88+
-- Safari 14+
-- Mobile browsers (iOS Safari, Chrome Mobile)
+- Chrome/Edge (Chromium) 90+ with WebAssembly 1.0
+- Firefox 88+ with full WebAssembly support
+- Safari 14+ with optimized WebAssembly performance
+- Mobile browsers (iOS Safari 14+, Chrome Mobile 90+)
 
 ---
 
 ## Visual Features
 
-### **Game Interface - Version 0.1.5**
-- **Immersive gradient background** - Cyan to magenta color transition
-- **Professional game title** - High-quality branding image
-- **Dynamic referee system** - Visual feedback for game events
-- **Intelligent positioning** - Auto-centering between screen edges and game area
-- **Consistent spacing** - 20px margins throughout interface
+### **Enhanced Game Interface - Version 0.1.5**
+- **Immersive gradient background** - Seamless cyan to magenta color transition
+- **Professional game branding** - High-quality title image with perfect positioning
+- **Advanced referee system** - Dynamic visual feedback with state persistence
+- **Perfect centering system** - Vertical centering of element groups for visual balance
+- **Intelligent spacing** - Consistent 20px margins with optimal visual hierarchy
 
-### **Referee System**
-- **Neutral State**: Default referee appearance on game start
-- **Player Victory**: Celebratory referee when player scores
-- **AI Victory**: Opponent-supporting referee when AI scores
-- **State Persistence**: Referee reaction remains until new game begins
+### **Sophisticated Referee System**
+- **Neutral State**: Clean, professional referee appearance on game start
+- **Player Victory**: Celebratory referee reaction that persists until new game
+- **AI Victory**: Opponent-supporting referee that remembers AI success
+- **State Intelligence**: Referee maintains reaction memory throughout game session
+- **Reset Logic**: Returns to neutral only when explicitly starting new game
 
 ---
 
 ## Deployment
 
-This project is configured for **GitHub Pages** deployment:
+This project is optimized for **GitHub Pages** deployment:
 
 1. **Repository Setup**: Uses `ERTYNEA.github.io` for direct domain access
-2. **Automatic Deployment**: Publishes to `docs/` folder
+2. **Automatic Deployment**: Publishes to `docs/` folder with optimized assets
 3. **Live URL**: [https://ERTYNEA.github.io/](https://ERTYNEA.github.io/)
+4. **Performance**: Optimized for fast loading and smooth gameplay
 
 ### **GitHub Pages Configuration**
-- **Source**: Deploy from `docs/` folder
-- **Branch**: `main`
-- **Custom Domain**: Supports custom domain configuration
+- **Source**: Deploy from `docs/` folder in main branch
+- **Build Process**: .NET 9 publish with Release configuration
+- **Custom Domain**: Supports custom domain configuration and HTTPS
 
 ---
 
 ## Version History
 
-### **v0.1.5** (Current)
-- **Dynamic referee system** - Visual referee reactions to scoring events
-- **Immersive gradient background** - Beautiful cyan to magenta gradient
-- **Enhanced UI layout** - Dual-section design with title and referee
-- **Professional branding** - High-quality title image integration
-- **Responsive positioning** - JavaScript-powered dynamic layout
-- **Code refactoring** - Cleaned architecture with separated RefereeState enum
-- **Asset optimization** - Updated game sprites and removed unused files
+### **v0.1.5** (Current - Enhanced)
+- **Advanced referee system** - Intelligent state management with memory persistence
+- **Perfect vertical centering** - CSS transform-based centering for visual balance
+- **Enhanced gradient background** - Beautiful cyan to magenta immersive experience
+- **Professional dual-section layout** - Title/version left, referee/score right with perfect spacing
+- **Optimized asset management** - Updated sprites, removed placeholder files and unused dependencies
+- **Clean architecture refactoring** - Separated RefereeState enum, removed unused Bootstrap components
+- **Advanced responsive positioning** - JavaScript-powered dynamic layout with CSS centering
+- **Improved state management** - Referee remembers game events until explicit reset
 
 ### **v0.1.4**
 - **Responsive game elements** - Paddles and ball scale automatically
@@ -268,12 +277,12 @@ This project is configured for **GitHub Pages** deployment:
 ## Contributing
 
 Contributions are welcome! This project serves as an excellent example of:
-- Modern .NET 9 and Blazor WebAssembly development
-- Clean architecture principles with state management
-- Game development with web technologies
-- Responsive design implementation
-- Dynamic UI positioning systems
-- GitHub Pages deployment strategies
+- Modern .NET 9 and Blazor WebAssembly development with state management
+- Clean architecture principles with proper separation of concerns
+- Advanced game development with web technologies and CSS transforms
+- Responsive design implementation with intelligent positioning
+- Dynamic UI systems with persistent state management
+- GitHub Pages deployment strategies with performance optimization
 
 ---
 
@@ -285,15 +294,22 @@ This project is open source and available for educational and personal use.
 
 ## About
 
-**NewAndRetroPong** demonstrates modern web game development using Microsoft's latest technologies. Built with **.NET 9**, **Blazor WebAssembly**, and **C# 13.0**, it showcases how to create performant, cross-platform games with immersive visual design and responsive user interfaces.
+**NewAndRetroPong** demonstrates cutting-edge web game development using Microsoft's latest technologies. Built with **.NET 9**, **Blazor WebAssembly**, and **C# 13.0**, it showcases how to create performant, cross-platform games with sophisticated visual design, intelligent state management, and responsive user interfaces.
 
 ### **Perfect For:**
-- Learning modern .NET web development
-- Understanding game development with state management
-- Exploring Blazor WebAssembly capabilities
-- Studying responsive web design patterns
-- Implementing dynamic positioning systems
-- Creating visual feedback systems in games
+- Learning modern .NET 9 web development patterns
+- Understanding advanced game development with persistent state systems
+- Exploring Blazor WebAssembly capabilities and component architecture
+- Studying responsive web design with CSS transforms and dynamic positioning
+- Implementing visual feedback systems with memory in games
+- Creating professional-grade user interfaces with perfect centering
+
+### **Technical Highlights:**
+- **State Management**: Sophisticated referee system with memory persistence
+- **Visual Design**: CSS transform-based vertical centering for perfect balance
+- **Architecture**: Clean separation with dedicated enum management
+- **Performance**: Optimized 60 FPS gameplay with efficient asset loading
+- **Responsiveness**: Intelligent positioning system with JavaScript and CSS collaboration
 
 ---
 
@@ -301,6 +317,6 @@ This project is open source and available for educational and personal use.
 
 **[PLAY NOW](https://ERTYNEA.github.io/) | [Star this repo](https://github.com/ERTYNEA/ERTYNEA.github.io) | [Fork](https://github.com/ERTYNEA/ERTYNEA.github.io/fork)**
 
-*Built with care using .NET 9 and Blazor WebAssembly*
+*Built with care using .NET 9, Blazor WebAssembly, and modern web technologies*
 
 </div>
