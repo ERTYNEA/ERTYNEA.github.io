@@ -15,8 +15,11 @@
 
 @* Game HTML structure *@
 <div class="game-fullscreen">
-	@* Game version - top left corner *@
-	<div class="game-version">v@(gameLogic.Version)</div>
+	@* Left section with title and version *@
+	<div class="left-section">
+		<img src="assets/images/title.png" alt="NewAndRetroPong" class="game-title" />
+		<div class="game-version">v@(gameLogic.Version)</div>
+	</div>
 	
 	@* Score - top right corner *@
 	<div class="game-header">

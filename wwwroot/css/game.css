@@ -10,7 +10,8 @@
 	justify-content: center;
 	padding: 0;
 	margin: 0;
-	background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+	/* Updated gradient background with specified colors */
+	background: linear-gradient(180deg, #00D0FF 0%, #FF00FF 100%);
 	color: white;
 	position: fixed;
 	top: 0;
@@ -18,18 +19,34 @@
 	overflow: hidden;
 }
 
-/* Game version - top left corner */
-.game-version {
+/* Left section containing title and version */
+.left-section {
 	position: absolute;
-	top: 15px;
-	left: 15px;
+	top: 20px;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	z-index: 1000;
+}
+
+/* Title image positioning */
+.game-title {
+	width: 400px;
+	height: 227px;
+	object-fit: contain;
+	margin-bottom: 20px;
+}
+
+/* Game version - now positioned below title */
+.game-version {
 	font-size: 1rem;
 	font-weight: bold;
 	opacity: 0.9;
-	z-index: 1000;
 	background: rgba(0, 0, 0, 0.3);
 	padding: 5px 10px;
 	border-radius: 5px;
+	text-align: center;
 }
 
 /* Score - top right corner */
@@ -101,14 +118,21 @@
 	}
 	
 	.game-version {
-		top: 10px !important;
-		left: 10px !important;
 		font-size: 0.9rem !important;
 	}
 	
 	.game-header {
 		top: 10px !important;
 		right: 10px !important;
+	}
+	
+	.game-title {
+		width: 300px !important;
+		height: 170px !important;
+	}
+	
+	.left-section {
+		top: 15px !important;
 	}
 }
 
@@ -124,9 +148,13 @@
 		right: 8px !important;
 	}
 	
-	.game-version {
-		top: 8px !important;
-		left: 8px !important;
+	.game-title {
+		width: 250px !important;
+		height: 142px !important;
+	}
+	
+	.left-section {
+		top: 10px !important;
 	}
 }
 

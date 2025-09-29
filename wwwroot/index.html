@@ -52,6 +52,19 @@
 			}
 		}
 
+		// Position left section dynamically
+		function positionLeftSection() {
+			const leftSection = document.querySelector('.left-section');
+			if (!leftSection || !canvas) return;
+			
+			const canvasRect = canvas.getBoundingClientRect();
+			const leftSpaceWidth = canvasRect.left;
+			const centerPosition = leftSpaceWidth / 2;
+			
+			// Center the left section horizontally in the left space
+			leftSection.style.left = `${Math.max(10, centerPosition - 200)}px`; // 200px is half of title width (400px)
+		}
+
 		// Initialize canvas and configure events
 		window.initializeGameCanvas = (canvasElement, dotNetReference) => {
 			canvas = canvasElement;
@@ -60,8 +73,12 @@
 			
 			resizeCanvas();
 			preloadImages();
+			positionLeftSection();
 			
-			window.addEventListener('resize', resizeCanvas);
+			window.addEventListener('resize', () => {
+				resizeCanvas();
+				positionLeftSection();
+			});
 			canvas.addEventListener('mousemove', handleMouseMove);
 			canvas.addEventListener('contextmenu', (e) => e.preventDefault());
 			canvas.focus();
