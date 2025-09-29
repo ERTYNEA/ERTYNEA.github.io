@@ -100,11 +100,6 @@
 		padding: 4px 12px !important;
 	}
 	
-	#gameCanvas {
-		border-left: 5px solid white;
-		border-right: 5px solid white;
-	}
-	
 	.game-version {
 		top: 10px !important;
 		left: 10px !important;
@@ -124,11 +119,6 @@
 		padding: 3px 10px !important;
 	}
 	
-	#gameCanvas {
-		border-left: 5px solid white;
-		border-right: 5px solid white;
-	}
-	
 	.game-header {
 		top: 8px !important;
 		right: 8px !important;
@@ -138,11 +128,6 @@
 		top: 8px !important;
 		left: 8px !important;
 	}
-}
-
-/* Hide Blazor navigation elements */
-.navbar, .sidebar, .top-row {
-	display: none !important;
 }
 
 /* Complete body reset for fullscreen game */
