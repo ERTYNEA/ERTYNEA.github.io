@@ -21,12 +21,15 @@
 		<div class="game-version">v@(gameLogic.Version)</div>
 	</div>
 	
-	@* Score - top right corner *@
-	<div class="game-header">
-		<div class="game-score">
-			<span class="opponent-score">@gameLogic.OpponentScore</span>
-			<span class="score-separator">-</span>
-			<span class="player-score">@gameLogic.PlayerScore</span>
+	@* Right section with referee and score *@
+	<div class="right-section">
+		<img src="@(gameLogic.GetRefereeImageSource())" alt="Referee" class="referee-image" />
+		<div class="game-header">
+			<div class="game-score">
+				<span class="opponent-score">@gameLogic.OpponentScore</span>
+				<span class="score-separator">-</span>
+				<span class="player-score">@gameLogic.PlayerScore</span>
+			</div>
 		</div>
 	</div>
 	

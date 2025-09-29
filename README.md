@@ -5,7 +5,7 @@
 [![C#](https://img.shields.io/badge/C%23-13.0-239120?style=flat-square&logo=csharp)](https://docs.microsoft.com/en-us/dotnet/csharp/)
 [![Live Demo](https://img.shields.io/badge/Play_Now-Live_Demo-00d4aa?style=flat-square)](https://ERTYNEA.github.io/)
 
-A modern, full-screen **Pong game** built with **.NET 9** and **Blazor WebAssembly**. Experience the classic arcade game with smooth 60 FPS gameplay, intelligent AI opponent, and responsive mouse controls.
+A modern, full-screen **Pong game** built with **.NET 9** and **Blazor WebAssembly**. Experience the classic arcade game with smooth 60 FPS gameplay, intelligent AI opponent, responsive mouse controls, and immersive visual design with dynamic referee system.
 
 ## [**PLAY NOW**](https://ERTYNEA.github.io/)
 
@@ -13,7 +13,7 @@ A modern, full-screen **Pong game** built with **.NET 9** and **Blazor WebAssemb
 
 ## Features
 
-### **Core Gameplay - Version 0.1.4**
+### **Core Gameplay - Version 0.1.5**
 - **Full-screen immersive experience** - Clean, distraction-free gaming
 - **Smooth 60 FPS gameplay** - Buttery smooth animations and physics
 - **Mouse control system** - Intuitive horizontal and vertical paddle movement
@@ -22,17 +22,22 @@ A modern, full-screen **Pong game** built with **.NET 9** and **Blazor WebAssemb
 - **Auto-restart mechanism** - Seamless transitions after scoring
 - **Responsive game elements** - Paddles and ball scale automatically to screen size
 
-### **Visual Design**
-- **Modern minimalist UI** - Clean interface with version display
-- **Mobile aspect ratio** - Optimized 9:16 portrait orientation
-- **Professional styling** - Gradient backgrounds and smooth animations
-- **Canvas-based graphics** - High-performance rendering with fallback sprites
-- **White side borders** - Clean 5px borders framing the game area
-- **Enhanced field lines** - Bright white lines for better visibility
+### **Visual Design & UI - New in 0.1.5**
+- **Dynamic referee system** - Visual referee reactions to game events
+  - Neutral referee on game start
+  - Celebratory referee when player scores
+  - Opponent-favoring referee when AI scores
+  - Referee state persists until new game starts
+- **Immersive gradient background** - Beautiful cyan to magenta gradient (#00D0FF ? #FF00FF)
+- **Dual-section layout** - Game title on left, referee and score on right
+- **Professional game branding** - 400x227px title image with dynamic positioning
+- **Centered responsive positioning** - Elements automatically center between screen edges and game canvas
+- **Enhanced spacing** - 20px consistent spacing throughout the interface
 
 ### **Technical Excellence**
+- **Modern architecture** - Clean separation with dedicated RefereeState enum
 - **Blazor WebAssembly** - Runs entirely in the browser
-- **Clean architecture** - Separated concerns with Core game logic
+- **Dynamic positioning system** - JavaScript-powered responsive layout
 - **Fully responsive design** - Elements scale based on screen size
 - **Cross-platform compatibility** - Works on any modern browser
 - **Optimized performance** - AOT compilation and compressed assets
@@ -45,7 +50,8 @@ A modern, full-screen **Pong game** built with **.NET 9** and **Blazor WebAssemb
 2. **Click anywhere** on the game area to start
 3. **Hit the ball** with your paddle to keep it in play
 4. **Score points** when the ball passes your opponent
-5. **Click to continue** after each point
+5. **Watch the referee** react to your gameplay!
+6. **Click to continue** after each point
 
 ---
 
@@ -55,24 +61,33 @@ A modern, full-screen **Pong game** built with **.NET 9** and **Blazor WebAssemb
 ```
 NewAndRetroPong/
 ??? Game/
-?   ??? Game.razor              # Main UI Component
+?   ??? Game.razor              # Main UI Component with Dual-Section Layout
 ?   ??? Core/                   # Game Logic Layer
-?       ??? GameLogic.cs        # Game Engine with Responsive System
+?       ??? GameLogic.cs        # Game Engine with Referee System
 ?       ??? Ball.cs             # Ball Entity
 ?       ??? Paddle.cs           # Paddle Entity
+?       ??? RefereeState.cs     # Referee State Management
 ??? Layout/
 ?   ??? MainLayout.razor        # Full-screen Layout
 ??? wwwroot/
-    ??? css/game.css            # Game Styling
-    ??? assets/images/          # Game Assets
-    ??? index.html              # Entry Point with Canvas Logic
+    ??? css/game.css            # Enhanced Game Styling with Gradients
+    ??? assets/images/          # Game Assets including Referee Images
+    ?   ??? title.png           # Game Title (400x227px)
+    ?   ??? referee_neutral.png # Neutral Referee (400x400px)
+    ?   ??? referee_player.png  # Player Score Referee (400x400px)
+    ?   ??? referee_enemy.png   # AI Score Referee (400x400px)
+    ?   ??? ball.png            # Ball Sprite
+    ?   ??? paddle_player.png   # Player Paddle Sprite
+    ?   ??? paddle_enemy.png    # AI Paddle Sprite
+    ??? index.html              # Entry Point with Dynamic Positioning Logic
 ```
 
 ### **Technology Stack**
 - **Framework**: .NET 9 with C# 13.0
 - **Frontend**: Blazor WebAssembly
 - **Graphics**: HTML5 Canvas with JavaScript interop
-- **Styling**: CSS3 with responsive design
+- **Styling**: CSS3 with responsive design and gradients
+- **State Management**: Custom RefereeState system
 - **Deployment**: GitHub Pages ready
 
 ---
@@ -112,11 +127,17 @@ dotnet publish -c Release -o docs
 
 ## Game Mechanics
 
-### **Responsive System - New in 0.1.4**
-- **Automatic scaling**: All game elements scale based on screen size
-- **Base configuration**: Optimized for 400x600 canvas
-- **Scale factor**: Maintains proportions across all devices
-- **Performance optimized**: Minimum speeds ensure smooth gameplay
+### **Dynamic Referee System - New in 0.1.5**
+- **State-based reactions**: Referee image changes based on game events
+- **Persistent feedback**: Referee state maintains until new game starts
+- **Visual storytelling**: Enhances game immersion with character reactions
+- **Responsive positioning**: 400x400px referee images scale for mobile devices
+
+### **Enhanced Visual Design**
+- **Gradient background**: Smooth cyan to magenta transition
+- **Dual-section layout**: Title/version on left, referee/score on right
+- **Dynamic positioning**: Elements center automatically between screen edges and canvas
+- **Professional branding**: High-quality title image with proper spacing
 
 ### **Player Controls**
 - **Mouse Movement**: Controls paddle position in real-time
@@ -138,16 +159,17 @@ dotnet publish -c Release -o docs
 ## Development Features
 
 ### **Code Quality**
+- **Clean architecture** - RefereeState enum separated into Core layer
 - **English-first comments** - All documentation in English
-- **Clean architecture** - Separated game logic and presentation
-- **Modern C# features** - Leverages C# 13.0 capabilities
+- **Modern C# features** - Leverages C# 13.0 pattern matching
 - **Comprehensive documentation** - Well-documented codebase
+- **Refactored codebase** - Removed unused code and dependencies
 
 ### **Performance Optimizations**
 - **Responsive scaling system** - Efficient element sizing
 - **60 FPS game loop** - Consistent 16ms frame timing
 - **Memory management** - Proper disposal patterns
-- **Optimized rendering** - Canvas-based graphics
+- **Optimized rendering** - Canvas-based graphics with image preloading
 
 ---
 
@@ -155,10 +177,10 @@ dotnet publish -c Release -o docs
 
 | Platform | Support | Notes |
 |----------|---------|-------|
-| **Desktop** | Full | Optimal experience with mouse control |
-| **Mobile** | Full | Touch-responsive design with scaling |
-| **Tablet** | Full | Perfect for touch gameplay |
-| **Web** | Full | No installation required |
+| **Desktop** | Full | Optimal experience with mouse control and full visual effects |
+| **Mobile** | Full | Touch-responsive design with scaled UI elements |
+| **Tablet** | Full | Perfect for touch gameplay with medium-sized assets |
+| **Web** | Full | No installation required, runs in any modern browser |
 
 ---
 
@@ -170,11 +192,11 @@ dotnet publish -c Release -o docs
 - **Memory Usage**: Optimized WebAssembly footprint
 - **Bundle Size**: Compressed for fast delivery
 
-### **Responsive Design**
-- **Mobile aspect ratio**: 9:16 portrait orientation
-- **Automatic scaling**: Elements scale to screen size
-- **White side borders**: 5px borders frame the game
-- **Enhanced visibility**: Bright white field lines
+### **Responsive Design Breakpoints**
+- **Desktop**: Full 400px images and elements
+- **Tablet (?768px)**: Scaled to 300px images
+- **Mobile (?480px)**: Scaled to 250px images
+- **Dynamic positioning**: JavaScript-powered responsive layout
 
 ### **Browser Compatibility**
 - Chrome/Edge (Chromium) 90+
@@ -184,18 +206,20 @@ dotnet publish -c Release -o docs
 
 ---
 
-## Screenshots
+## Visual Features
 
-### Game in Action
-*Experience smooth, full-screen Pong gameplay with modern UI design and responsive scaling*
+### **Game Interface - Version 0.1.5**
+- **Immersive gradient background** - Cyan to magenta color transition
+- **Professional game title** - High-quality branding image
+- **Dynamic referee system** - Visual feedback for game events
+- **Intelligent positioning** - Auto-centering between screen edges and game area
+- **Consistent spacing** - 20px margins throughout interface
 
-### Key Features
-- **Immersive full-screen mode**
-- **Real-time score display** 
-- **Intuitive mouse controls**
-- **Smart AI opponent**
-- **Mobile-responsive design**
-- **Automatic element scaling**
+### **Referee System**
+- **Neutral State**: Default referee appearance on game start
+- **Player Victory**: Celebratory referee when player scores
+- **AI Victory**: Opponent-supporting referee when AI scores
+- **State Persistence**: Referee reaction remains until new game begins
 
 ---
 
@@ -216,7 +240,16 @@ This project is configured for **GitHub Pages** deployment:
 
 ## Version History
 
-### **v0.1.4** (Current)
+### **v0.1.5** (Current)
+- **Dynamic referee system** - Visual referee reactions to scoring events
+- **Immersive gradient background** - Beautiful cyan to magenta gradient
+- **Enhanced UI layout** - Dual-section design with title and referee
+- **Professional branding** - High-quality title image integration
+- **Responsive positioning** - JavaScript-powered dynamic layout
+- **Code refactoring** - Cleaned architecture with separated RefereeState enum
+- **Asset optimization** - Updated game sprites and removed unused files
+
+### **v0.1.4**
 - **Responsive game elements** - Paddles and ball scale automatically
 - **Enhanced borders** - Clean 5px white side borders
 - **Improved field lines** - Bright white lines for better visibility
@@ -236,9 +269,10 @@ This project is configured for **GitHub Pages** deployment:
 
 Contributions are welcome! This project serves as an excellent example of:
 - Modern .NET 9 and Blazor WebAssembly development
-- Clean architecture principles
+- Clean architecture principles with state management
 - Game development with web technologies
 - Responsive design implementation
+- Dynamic UI positioning systems
 - GitHub Pages deployment strategies
 
 ---
@@ -251,14 +285,15 @@ This project is open source and available for educational and personal use.
 
 ## About
 
-**NewAndRetroPong** demonstrates modern web game development using Microsoft's latest technologies. Built with **.NET 9**, **Blazor WebAssembly**, and **C# 13.0**, it showcases how to create performant, cross-platform games that run entirely in the browser.
+**NewAndRetroPong** demonstrates modern web game development using Microsoft's latest technologies. Built with **.NET 9**, **Blazor WebAssembly**, and **C# 13.0**, it showcases how to create performant, cross-platform games with immersive visual design and responsive user interfaces.
 
 ### **Perfect For:**
 - Learning modern .NET web development
-- Understanding game development concepts
+- Understanding game development with state management
 - Exploring Blazor WebAssembly capabilities
-- Studying responsive web design
-- Implementing scaling systems in games
+- Studying responsive web design patterns
+- Implementing dynamic positioning systems
+- Creating visual feedback systems in games
 
 ---
 

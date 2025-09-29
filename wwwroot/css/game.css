@@ -30,10 +30,29 @@
 	z-index: 1000;
 }
 
+/* Right section containing referee and score */
+.right-section {
+	position: absolute;
+	top: 20px;
+	right: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	z-index: 1000;
+}
+
 /* Title image positioning */
 .game-title {
 	width: 400px;
 	height: 227px;
+	object-fit: contain;
+	margin-bottom: 20px;
+}
+
+/* Referee image positioning */
+.referee-image {
+	width: 400px;
+	height: 400px;
 	object-fit: contain;
 	margin-bottom: 20px;
 }
@@ -49,13 +68,9 @@
 	text-align: center;
 }
 
-/* Score - top right corner */
+/* Score - now positioned below referee */
 .game-header {
-	position: absolute;
-	top: 15px;
-	right: 15px;
 	text-align: center;
-	z-index: 1000;
 }
 
 .game-score {
@@ -121,17 +136,21 @@
 		font-size: 0.9rem !important;
 	}
 	
-	.game-header {
-		top: 10px !important;
-		right: 10px !important;
-	}
-	
 	.game-title {
 		width: 300px !important;
 		height: 170px !important;
 	}
 	
+	.referee-image {
+		width: 300px !important;
+		height: 300px !important;
+	}
+	
 	.left-section {
+		top: 15px !important;
+	}
+	
+	.right-section {
 		top: 15px !important;
 	}
 }
@@ -143,17 +162,21 @@
 		padding: 3px 10px !important;
 	}
 	
-	.game-header {
-		top: 8px !important;
-		right: 8px !important;
-	}
-	
 	.game-title {
 		width: 250px !important;
 		height: 142px !important;
 	}
 	
+	.referee-image {
+		width: 250px !important;
+		height: 250px !important;
+	}
+	
 	.left-section {
+		top: 10px !important;
+	}
+	
+	.right-section {
 		top: 10px !important;
 	}
 }

@@ -21,6 +21,9 @@ public class GameLogic
 	public int OpponentScore { get; private set; }
 	public string Version { get; private set; } = "0.1.5";
 	
+	// Referee state - controls which referee image to display
+	public RefereeState CurrentRefereeState { get; private set; } = RefereeState.Neutral;
+	
 	// Base configuration for 400x600 canvas (used as reference for scaling)
 	private const int BASE_CANVAS_WIDTH = 400;
 	private const int BASE_CANVAS_HEIGHT = 600;
@@ -91,6 +94,9 @@ public class GameLogic
 			OpponentScore = 0;
 		}
 		
+		// Reset referee to neutral state when starting new game
+		CurrentRefereeState = RefereeState.Neutral;
+		
 		IsGameRunning = false;
 		IsGameStarted = false;
 		IsBallPaused = true;
@@ -135,6 +141,9 @@ public class GameLogic
 		IsGameStarted = true;
 		IsBallPaused = false;
 		
+		// Reset referee to neutral when starting a new game (clicking to start)
+		CurrentRefereeState = RefereeState.Neutral;
+		
 		// Generate random angle for ball
 		Random random = new Random();
 		float angle = (random.NextSingle() - 0.5f) * (float)Math.PI / 4;
@@ -151,6 +160,7 @@ public class GameLogic
 		IsGameRunning = false;
 		IsBallPaused = true;
 		// Keep IsGameStarted = true to maintain paddle control
+		// Keep CurrentRefereeState unchanged - it should persist until new game starts
 	}
 	
 	public bool CanStartGame()
@@ -231,11 +241,13 @@ public class GameLogic
 		if (Ball.Y < -Ball.Size)
 		{
 			PlayerScore++;
+			CurrentRefereeState = RefereeState.PlayerScored;
 			ResetGameForNextPoint();
 		}
 		else if (Ball.Y > CanvasHeight + Ball.Size)
 		{
 			OpponentScore++;
+			CurrentRefereeState = RefereeState.OpponentScored;
 			ResetGameForNextPoint();
 		}
 	}
@@ -257,5 +269,16 @@ public class GameLogic
 			else
 				OpponentPaddle.X = Math.Max(0, (int)(currentX - OpponentPaddle.Speed));
 		}
+	}
+	
+	// Get the appropriate referee image source based on current state
+	public string GetRefereeImageSource()
+	{
+		return CurrentRefereeState switch
+		{
+			RefereeState.PlayerScored => "assets/images/referee_player.png",
+			RefereeState.OpponentScored => "assets/images/referee_enemy.png",
+			_ => "assets/images/referee_neutral.png"
+		};
 	}
 }

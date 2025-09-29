@@ -52,17 +52,24 @@
 			}
 		}
 
-		// Position left section dynamically
-		function positionLeftSection() {
+		// Position left and right sections dynamically
+		function positionSideSections() {
 			const leftSection = document.querySelector('.left-section');
-			if (!leftSection || !canvas) return;
+			const rightSection = document.querySelector('.right-section');
+			if (!leftSection || !rightSection || !canvas) return;
 			
 			const canvasRect = canvas.getBoundingClientRect();
-			const leftSpaceWidth = canvasRect.left;
-			const centerPosition = leftSpaceWidth / 2;
 			
-			// Center the left section horizontally in the left space
-			leftSection.style.left = `${Math.max(10, centerPosition - 200)}px`; // 200px is half of title width (400px)
+			// Position left section
+			const leftSpaceWidth = canvasRect.left;
+			const leftCenterPosition = leftSpaceWidth / 2;
+			leftSection.style.left = `${Math.max(10, leftCenterPosition - 200)}px`; // 200px is half of title width (400px)
+			
+			// Position right section
+			const rightSpaceStart = canvasRect.right;
+			const rightSpaceWidth = window.innerWidth - rightSpaceStart;
+			const rightCenterPosition = rightSpaceStart + (rightSpaceWidth / 2);
+			rightSection.style.right = `${Math.max(10, window.innerWidth - rightCenterPosition - 200)}px`; // 200px is half of referee width (400px)
 		}
 
 		// Initialize canvas and configure events
@@ -73,11 +80,11 @@
 			
 			resizeCanvas();
 			preloadImages();
-			positionLeftSection();
+			positionSideSections();
 			
 			window.addEventListener('resize', () => {
 				resizeCanvas();
-				positionLeftSection();
+				positionSideSections();
 			});
 			canvas.addEventListener('mousemove', handleMouseMove);
 			canvas.addEventListener('contextmenu', (e) => e.preventDefault());
