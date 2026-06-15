@@ -5,20 +5,35 @@
 
 <h1>Weather</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p>Real weather forecast for Madrid, fetched from the free Open-Meteo API.</p>
 
-@if (forecasts == null)
+@if (!string.IsNullOrWhiteSpace(errorMessage))
 {
-    <p><em>Loading...</em></p>
+    <div class="alert alert-danger" role="alert">
+        @errorMessage
+    </div>
+}
+else if (forecasts == null)
+{
+    <p><em>Loading real weather data...</em></p>
 }
 else
 {
+    @if (currentWeather is not null)
+    {
+        <div class="alert alert-info" role="status">
+            <strong>Madrid now:</strong>
+            @currentWeather.TemperatureC.ToString("0.#") °C — @currentWeather.Summary
+            <span class="text-muted">(@currentWeather.Time.ToString("dd/MM/yyyy HH:mm"))</span>
+        </div>
+    }
+
     <table class="table">
         <thead>
             <tr>
                 <th>Date</th>
-                <th aria-label="Temperature in Celsius">Temp. (C)</th>
-                <th aria-label="Temperature in Fahrenheit">Temp. (F)</th>
+                <th aria-label="Minimum temperature in Celsius">Min. (C)</th>
+                <th aria-label="Maximum temperature in Celsius">Max. (C)</th>
                 <th>Summary</th>
             </tr>
         </thead>
@@ -26,32 +41,121 @@ else
             @foreach (var forecast in forecasts)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Date.ToString("dd/MM/yyyy")</td>
+                    <td>@forecast.TemperatureMinC.ToString("0.#")</td>
+                    <td>@forecast.TemperatureMaxC.ToString("0.#")</td>
                     <td>@forecast.Summary</td>
                 </tr>
             }
         </tbody>
     </table>
+
+    <p class="text-muted small">
+        Source: <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a>, Madrid coordinates 40.4168, -3.7038.
+    </p>
 }
 
 @code {
+    private const string MadridForecastUrl = "https://api.open-meteo.com/v1/forecast?latitude=40.4168&longitude=-3.7038&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Europe%2FMadrid&forecast_days=5";
+
+    private CurrentWeather? currentWeather;
     private WeatherForecast[]? forecasts;
+    private string? errorMessage;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+        try
+        {
+            var response = await Http.GetFromJsonAsync<OpenMeteoForecastResponse>(MadridForecastUrl);
+
+            if (response?.Daily?.Time is null || response.Daily.TemperatureMinC is null || response.Daily.TemperatureMaxC is null || response.Daily.WeatherCode is null)
+            {
+                errorMessage = "The weather service returned an unexpected response.";
+                return;
+            }
+
+            currentWeather = response.Current is null
+                ? null
+                : new CurrentWeather(
+                    DateTime.Parse(response.Current.Time),
+                    response.Current.TemperatureC,
+                    GetWeatherSummary(response.Current.WeatherCode));
+
+            var forecastCount = new[]
+            {
+                response.Daily.Time.Length,
+                response.Daily.TemperatureMinC.Length,
+                response.Daily.TemperatureMaxC.Length,
+                response.Daily.WeatherCode.Length
+            }.Min();
+
+            forecasts = Enumerable.Range(0, forecastCount)
+                .Select(index => new WeatherForecast(
+                    DateOnly.Parse(response.Daily.Time[index]),
+                    response.Daily.TemperatureMinC[index],
+                    response.Daily.TemperatureMaxC[index],
+                    GetWeatherSummary(response.Daily.WeatherCode[index])))
+                .ToArray();
+        }
+        catch (Exception exception)
+        {
+            errorMessage = $"Could not load Madrid weather data: {exception.Message}";
+        }
     }
 
-    public class WeatherForecast
+    private static string GetWeatherSummary(int weatherCode) => weatherCode switch
     {
-        public DateOnly Date { get; set; }
+        0 => "Clear sky",
+        1 => "Mainly clear",
+        2 => "Partly cloudy",
+        3 => "Overcast",
+        45 or 48 => "Fog",
+        51 or 53 or 55 => "Drizzle",
+        56 or 57 => "Freezing drizzle",
+        61 or 63 or 65 => "Rain",
+        66 or 67 => "Freezing rain",
+        71 or 73 or 75 => "Snow fall",
+        77 => "Snow grains",
+        80 or 81 or 82 => "Rain showers",
+        85 or 86 => "Snow showers",
+        95 => "Thunderstorm",
+        96 or 99 => "Thunderstorm with hail",
+        _ => $"Weather code {weatherCode}"
+    };
 
-        public int TemperatureC { get; set; }
+    private sealed record CurrentWeather(DateTime Time, double TemperatureC, string Summary);
 
-        public string? Summary { get; set; }
+    private sealed record WeatherForecast(DateOnly Date, double TemperatureMinC, double TemperatureMaxC, string Summary);
 
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    private sealed class OpenMeteoForecastResponse
+    {
+        public OpenMeteoCurrent? Current { get; set; }
+
+        public OpenMeteoDaily? Daily { get; set; }
+    }
+
+    private sealed class OpenMeteoCurrent
+    {
+        public string Time { get; set; } = string.Empty;
+
+        [System.Text.Json.Serialization.JsonPropertyName("temperature_2m")]
+        public double TemperatureC { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("weather_code")]
+        public int WeatherCode { get; set; }
+    }
+
+    private sealed class OpenMeteoDaily
+    {
+        public string[] Time { get; set; } = [];
+
+        [System.Text.Json.Serialization.JsonPropertyName("temperature_2m_min")]
+        public double[] TemperatureMinC { get; set; } = [];
+
+        [System.Text.Json.Serialization.JsonPropertyName("temperature_2m_max")]
+        public double[] TemperatureMaxC { get; set; } = [];
+
+        [System.Text.Json.Serialization.JsonPropertyName("weather_code")]
+        public int[] WeatherCode { get; set; } = [];
     }
 }
